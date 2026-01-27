@@ -1,0 +1,379 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  schemas  = ["activity", "localization", "training", "users"]
+}
+
+model general_domain {
+  id                                    Int                                     @id(map: "general_domain_pk") @default(autoincrement())
+  fullname                              String                                  @db.VarChar
+  shortname                             String?                                 @db.VarChar
+  description                           String?                                 @db.VarChar
+  column3                               String?                                 @db.VarChar(50)
+  general_domain_has_nature_of_activity general_domain_has_nature_of_activity[]
+  general_domain_has_structure_type     general_domain_has_structure_type[]
+  user_has_worked                       user_has_worked[]
+
+  @@schema("activity")
+}
+
+model general_domain_has_nature_of_activity {
+  general_domain_id     Int
+  nature_of_activity_id Int
+  general_domain        general_domain     @relation(fields: [general_domain_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "general_domain_has_nature_of_activity_general_domain_fk")
+  nature_of_activity    nature_of_activity @relation(fields: [nature_of_activity_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "general_domain_has_nature_of_activity_nature_of_activity_fk")
+
+  @@id([general_domain_id, nature_of_activity_id], map: "general_domain_has_nature_of_activity_pk")
+  @@schema("activity")
+}
+
+model general_domain_has_structure_type {
+  general_domain_id Int
+  structure_type_id Int
+  general_domain    general_domain @relation(fields: [general_domain_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "general_domain_has_structure_type_general_domain_fk")
+  structure_type    structure_type @relation(fields: [structure_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "general_domain_has_structure_type_structure_type_fk")
+
+  @@id([general_domain_id, structure_type_id], map: "general_domain_has_structure_type_pk")
+  @@schema("activity")
+}
+
+model nature_of_activity {
+  id                                    Int                                     @id(map: "newtable_pk") @default(autoincrement())
+  fullname                              String                                  @db.VarChar
+  shortname                             String?                                 @db.VarChar
+  description                           String?                                 @db.VarChar
+  general_domain_has_nature_of_activity general_domain_has_nature_of_activity[]
+  user_has_worked                       user_has_worked[]
+
+  @@schema("activity")
+}
+
+model address {
+  id               Int                @id(map: "address_pk") @default(autoincrement())
+  street           String?            @db.VarChar
+  created_at       DateTime?          @default(now()) @db.Timestamptz(6)
+  city_id          Int
+  city             city               @relation(fields: [city_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "address_city_fk")
+  structure        structure[]
+  user_has_address user_has_address[]
+
+  @@schema("localization")
+}
+
+model city {
+  id          Int       @id(map: "city_pk") @default(autoincrement())
+  fullname    String    @db.VarChar
+  postal_code Int
+  country_id  Int
+  address     address[]
+  country     country   @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "city_country_fk")
+
+  @@schema("localization")
+}
+
+model country {
+  id        Int     @id(map: "country_pk") @default(autoincrement())
+  fullname  String  @unique(map: "country_unique") @db.VarChar
+  shortname String? @db.VarChar
+  city      city?
+
+  @@schema("localization")
+}
+
+model domaine {
+  id          Int       @id(map: "domaine_pk") @default(autoincrement())
+  fullname    String    @db.VarChar
+  shortname   String    @db.VarChar
+  description String?   @db.VarChar
+  service     service[]
+
+  @@schema("localization")
+}
+
+model sectors {
+  fullname        String?           @db.VarChar
+  shortname       String?           @db.VarChar
+  description     String?           @db.VarChar
+  id              Int               @id(map: "sectors_pk") @default(autoincrement())
+  rncp_has_sector rncp_has_sector[]
+
+  @@schema("localization")
+}
+
+model service {
+  fullname              String                  @db.VarChar
+  shortname             String                  @db.VarChar
+  description           String?                 @db.VarChar
+  domaine_id            Int
+  id                    Int                     @id(map: "service_pk") @default(autoincrement())
+  domaine               domaine                 @relation(fields: [domaine_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "service_domaine_fk")
+  structure_has_service structure_has_service[]
+
+  @@schema("localization")
+}
+
+model structure {
+  id                    Int                     @id(map: "structure_pk") @default(autoincrement())
+  fullname              String                  @db.VarChar
+  shortname             String?                 @db.VarChar
+  description           String?                 @db.VarChar
+  address_id            Int?
+  address               address?                @relation(fields: [address_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "structure_address_fk")
+  structure_has_service structure_has_service[]
+  user_has_worked       user_has_worked[]
+
+  @@schema("localization")
+}
+
+model structure_has_service {
+  structure_id Int
+  service_id   Int
+  service      service   @relation(fields: [service_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "structure_has_service_service_fk")
+  structure    structure @relation(fields: [structure_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "structure_has_service_structure_fk")
+
+  @@id([structure_id, service_id], map: "structure_has_service_pk")
+  @@schema("localization")
+}
+
+model structure_type {
+  id                                Int                                 @id(map: "structure_type_pk") @default(autoincrement())
+  fullname                          String                              @db.VarChar
+  shortname                         String                              @db.VarChar
+  description                       String?                             @db.VarChar
+  general_domain_has_structure_type general_domain_has_structure_type[]
+  user_has_worked                   user_has_worked[]
+
+  @@schema("localization")
+}
+
+model diploma_type {
+  id        Int    @id(map: "newtable_pk") @default(autoincrement())
+  fullname  String @db.VarChar
+  shortname String @db.VarChar
+
+  @@schema("training")
+}
+
+model rncp {
+  id              Int               @id(map: "rncp_pk") @default(autoincrement())
+  id_fiche        Int?
+  numero_fiche    String?           @db.VarChar
+  intitule        String?           @db.VarChar
+  diploma_type_id Int?
+  rncp_has_sector rncp_has_sector[]
+  training        training[]
+  user_has_rncp   user_has_rncp[]
+
+  @@schema("training")
+}
+
+model rncp_has_sector {
+  rncp_id    Int
+  sectors_id Int
+  rncp       rncp    @relation(fields: [rncp_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "rncp_has_sector_rncp_fk")
+  sectors    sectors @relation(fields: [sectors_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "rncp_has_sector_sectors_fk")
+
+  @@id([rncp_id, sectors_id], map: "rncp_has_sector_pk")
+  @@schema("training")
+}
+
+model structure_has_training {
+  structure_id Int
+  training_id  Int
+  training     training @relation(fields: [structure_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "structure_has_training_training_fk")
+
+  @@id([structure_id, training_id], map: "structure_has_training_pk")
+  @@schema("training")
+}
+
+model training {
+  fullname               String                   @db.VarChar
+  shortname              String                   @db.VarChar
+  description            String?                  @db.VarChar
+  created_at             DateTime                 @db.Date
+  rncp_id                Int
+  id                     Int                      @id(map: "training_pk") @default(autoincrement())
+  structure_has_training structure_has_training[]
+  rncp                   rncp                     @relation(fields: [rncp_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "training_rncp_fk")
+
+  @@schema("training")
+}
+
+model contract_type {
+  id                          Int                           @id(map: "contract_type_pk") @default(autoincrement())
+  fullname                    String                        @db.VarChar
+  shortname                   String                        @db.VarChar
+  description                 String?                       @db.VarChar
+  user_has_user_type_contract user_has_user_type_contract[]
+
+  @@schema("users")
+}
+
+model email {
+  id            Int        @id(map: "email_pk") @default(autoincrement())
+  email         String     @unique(map: "email_unique") @db.VarChar
+  user_id       Int
+  email_type_id Int
+  created_at    DateTime   @default(now()) @db.Timestamptz(6)
+  email_type    email_type @relation(fields: [email_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "email_email_type_fk")
+  user          user       @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "email_user_fk")
+
+  @@schema("users")
+}
+
+model email_type {
+  fullname String  @db.VarChar
+  id       Int     @id(map: "email_type_pk") @default(autoincrement())
+  email    email[]
+
+  @@schema("users")
+}
+
+model expertise {
+  id                 Int                  @id(map: "expertise_pk") @default(autoincrement())
+  fullname           String               @db.VarChar
+  shortname          String               @db.VarChar
+  description        String?              @db.VarChar
+  created_at         DateTime             @default(now()) @db.Timestamptz(6)
+  user_has_expertise user_has_expertise[]
+
+  @@schema("users")
+}
+
+model phone {
+  id         Int       @id(map: "phone_pk") @default(autoincrement())
+  number     String?   @db.VarChar
+  user_id    Int?
+  created_at DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at DateTime? @db.Timestamptz(6)
+  user       user?     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "phone_user_fk")
+
+  @@schema("users")
+}
+
+model user {
+  id                          Int                           @id(map: "user_pk") @default(autoincrement())
+  firstname                   String                        @db.VarChar
+  lastname                    String                        @db.VarChar
+  pwd                         String?                       @db.VarChar
+  nir                         String?                       @db.VarChar
+  gender                      String?                       @db.VarChar
+  photo                       String?                       @db.VarChar
+  created_at                  DateTime?                     @default(now()) @db.Timestamptz(6)
+  updated_at                  DateTime?                     @default(now()) @db.Timestamptz(6)
+  date_of_birth               DateTime?                     @db.Date
+  email                       email[]
+  file                        file[]
+  phone                       phone[]
+  user_has_address            user_has_address[]
+  user_has_expertise          user_has_expertise[]
+  user_has_rncp               user_has_rncp[]
+  user_has_user_type_contract user_has_user_type_contract[]
+  user_has_worked             user_has_worked[]
+
+  @@schema("users")
+}
+
+model user_has_address {
+  user_id    Int
+  address_id Int
+  address    address @relation(fields: [address_id], references: [id], onDelete: Cascade, map: "user_has_address_address_fk")
+  user       user    @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "user_has_address_user_fk")
+
+  @@id([user_id, address_id], map: "user_has_address_pk")
+  @@schema("users")
+}
+
+model user_has_expertise {
+  user_id      Int
+  expertise_id Int
+  expertise    expertise @relation(fields: [expertise_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_has_expertise_expertise_fk")
+  user         user      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_has_expertise_user_fk")
+
+  @@id([user_id, expertise_id], map: "user_has_expertise_pk")
+  @@unique([user_id, expertise_id], map: "user_has_expertise_unique")
+  @@schema("users")
+}
+
+model user_has_rncp {
+  user_id           Int
+  rncp_id           Int
+  date_of_obtaining Int?
+  rncp              rncp @relation(fields: [rncp_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_has_diploma_rncp_fk")
+  user              user @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_has_diploma_user_fk")
+
+  @@id([user_id, rncp_id], map: "user_has_diploma_pk")
+  @@schema("users")
+}
+
+model user_has_user_type_contract {
+  user_id          Int
+  user_type_id     Int
+  end_date         DateTime?     @db.Date
+  contract_type_id Int
+  start_data       DateTime?     @db.Date
+  id               Int           @id(map: "user_has_user_type_contract_pk") @default(autoincrement())
+  contract_type    contract_type @relation(fields: [contract_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_has_user_type_contract_contract_type_fk")
+  user             user          @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_has_user_type_contract_user_fk")
+  user_type        user_type     @relation(fields: [user_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_has_user_type_contract_user_type_fk")
+
+  @@schema("users")
+}
+
+model user_has_worked {
+  user_id               Int
+  job_title             String?             @db.VarChar
+  start_date            DateTime            @db.Date
+  end_date              DateTime?           @db.Date
+  description           String?             @db.VarChar
+  id                    Int                 @id(map: "user_has_worked_pk") @default(autoincrement())
+  nature_of_activity_id Int?
+  structure_id          Int
+  general_domain_id     Int
+  structure_type_id     Int
+  general_domain        general_domain      @relation(fields: [general_domain_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_has_worked_general_domain_fk")
+  nature_of_activity    nature_of_activity? @relation(fields: [nature_of_activity_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_has_worked_nature_of_activity_fk")
+  structure             structure           @relation(fields: [structure_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_has_worked_structure_fk")
+  structure_type        structure_type      @relation(fields: [structure_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_has_worked_structure_type_fk")
+  user                  user                @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_has_worked_user_fk")
+
+  @@schema("users")
+}
+
+model user_type {
+  id                          Int                           @id(map: "user_type_pk") @default(autoincrement())
+  fullname                    String                        @db.VarChar
+  shortname                   String                        @db.VarChar
+  user_has_user_type_contract user_has_user_type_contract[]
+
+  @@schema("users")
+}
+
+model file {
+  id           Int       @id(map: "file_pk") @default(autoincrement())
+  file_name    String    @db.VarChar
+  extension    String?   @db.VarChar
+  type_mime    String?   @db.VarChar
+  hash         String    @unique(map: "file_unique") @db.VarChar
+  file_type_id Int
+  user_id      Int
+  uploaded_at  DateTime? @default(now()) @db.Timestamp(6)
+  file_type    file_type @relation(fields: [file_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "file_file_type_fk")
+  user         user      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "file_user_fk")
+
+  @@schema("users")
+}
+
+model file_type {
+  id          Int     @id(map: "file_type_pk") @default(autoincrement())
+  fullname    String  @db.VarChar
+  shortname   String? @db.VarChar
+  description String? @db.VarChar
+  file        file[]
+
+  @@schema("users")
+}
