@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 
 export async function getAllCandidatesPrisma() {
-  const users = await prisma.user.findMany({
+  const users = await prisma.profile.findMany({
     select: {
       id: true,
       firstname: true,

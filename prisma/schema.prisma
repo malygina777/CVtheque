@@ -5,7 +5,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  schemas  = ["activity", "localization", "training", "users"]
+  schemas  = ["activity", "auth", "localization", "training", "users"]
 }
 
 model general_domain {
@@ -216,11 +216,11 @@ model contract_type {
 model email {
   id            Int        @id(map: "email_pk") @default(autoincrement())
   email         String     @unique(map: "email_unique") @db.VarChar
-  user_id       Int
+  profile_id    Int
   email_type_id Int
   created_at    DateTime   @default(now()) @db.Timestamptz(6)
   email_type    email_type @relation(fields: [email_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "email_email_type_fk")
-  user          user       @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "email_user_fk")
+  profile       profile    @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "email_profile_fk")
 
   @@schema("users")
 }
@@ -247,85 +247,62 @@ model expertise {
 model phone {
   id         Int       @id(map: "phone_pk") @default(autoincrement())
   number     String?   @db.VarChar
-  user_id    Int?
+  profile_id Int?
   created_at DateTime  @default(now()) @db.Timestamptz(6)
   updated_at DateTime? @db.Timestamptz(6)
-  user       user?     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "phone_user_fk")
-
-  @@schema("users")
-}
-
-model user {
-  id                          Int                           @id(map: "user_pk") @default(autoincrement())
-  firstname                   String                        @db.VarChar
-  lastname                    String                        @db.VarChar
-  pwd                         String?                       @db.VarChar
-  nir                         String?                       @db.VarChar
-  gender                      String?                       @db.VarChar
-  photo                       String?                       @db.VarChar
-  created_at                  DateTime?                     @default(now()) @db.Timestamptz(6)
-  updated_at                  DateTime?                     @default(now()) @db.Timestamptz(6)
-  date_of_birth               DateTime?                     @db.Date
-  email                       email[]
-  file                        file[]
-  phone                       phone[]
-  user_has_address            user_has_address[]
-  user_has_expertise          user_has_expertise[]
-  user_has_rncp               user_has_rncp[]
-  user_has_user_type_contract user_has_user_type_contract[]
-  user_has_worked             user_has_worked[]
+  profile    profile?  @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "phone_profile_fk")
 
   @@schema("users")
 }
 
 model user_has_address {
-  user_id    Int
+  profile_id Int
   address_id Int
   address    address @relation(fields: [address_id], references: [id], onDelete: Cascade, map: "user_has_address_address_fk")
-  user       user    @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "user_has_address_user_fk")
+  profile    profile @relation(fields: [profile_id], references: [id], onDelete: Cascade, map: "user_has_address_profile_fk")
 
-  @@id([user_id, address_id], map: "user_has_address_pk")
+  @@id([profile_id, address_id], map: "user_has_address_pk")
   @@schema("users")
 }
 
 model user_has_expertise {
-  user_id      Int
+  profile_id   Int
   expertise_id Int
   expertise    expertise @relation(fields: [expertise_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_has_expertise_expertise_fk")
-  user         user      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_has_expertise_user_fk")
+  profile      profile   @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_has_expertise_profile_fk")
 
-  @@id([user_id, expertise_id], map: "user_has_expertise_pk")
-  @@unique([user_id, expertise_id], map: "user_has_expertise_unique")
+  @@id([profile_id, expertise_id], map: "user_has_expertise_pk")
+  @@unique([profile_id, expertise_id], map: "user_has_expertise_unique")
   @@schema("users")
 }
 
 model user_has_rncp {
-  user_id           Int
+  profile_id        Int
   rncp_id           Int
   date_of_obtaining Int?
-  rncp              rncp @relation(fields: [rncp_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_has_diploma_rncp_fk")
-  user              user @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_has_diploma_user_fk")
+  profile           profile @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_has_diploma_profile_fk")
+  rncp              rncp    @relation(fields: [rncp_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_has_diploma_rncp_fk")
 
-  @@id([user_id, rncp_id], map: "user_has_diploma_pk")
+  @@id([profile_id, rncp_id], map: "user_has_diploma_pk")
   @@schema("users")
 }
 
 model user_has_user_type_contract {
-  user_id          Int
+  profile_id       Int
   user_type_id     Int
   end_date         DateTime?     @db.Date
   contract_type_id Int
   start_data       DateTime?     @db.Date
   id               Int           @id(map: "user_has_user_type_contract_pk") @default(autoincrement())
   contract_type    contract_type @relation(fields: [contract_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_has_user_type_contract_contract_type_fk")
-  user             user          @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_has_user_type_contract_user_fk")
+  profile          profile       @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_has_user_type_contract_profile_fk")
   user_type        user_type     @relation(fields: [user_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_has_user_type_contract_user_type_fk")
 
   @@schema("users")
 }
 
 model user_has_worked {
-  user_id               Int
+  profile_id            Int
   job_title             String?             @db.VarChar
   start_date            DateTime            @db.Date
   end_date              DateTime?           @db.Date
@@ -337,9 +314,9 @@ model user_has_worked {
   structure_type_id     Int
   general_domain        general_domain      @relation(fields: [general_domain_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_has_worked_general_domain_fk")
   nature_of_activity    nature_of_activity? @relation(fields: [nature_of_activity_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_has_worked_nature_of_activity_fk")
+  profile               profile             @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_has_worked_profile_fk")
   structure             structure           @relation(fields: [structure_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_has_worked_structure_fk")
   structure_type        structure_type      @relation(fields: [structure_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_has_worked_structure_type_fk")
-  user                  user                @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_has_worked_user_fk")
 
   @@schema("users")
 }
@@ -360,10 +337,10 @@ model file {
   type_mime    String?   @db.VarChar
   hash         String    @unique(map: "file_unique") @db.VarChar
   file_type_id Int
-  user_id      Int
+  profile_id   Int
   uploaded_at  DateTime? @default(now()) @db.Timestamp(6)
   file_type    file_type @relation(fields: [file_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "file_file_type_fk")
-  user         user      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "file_user_fk")
+  profile      profile   @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "file_profile_fk")
 
   @@schema("users")
 }
@@ -374,6 +351,96 @@ model file_type {
   shortname   String? @db.VarChar
   description String? @db.VarChar
   file        file[]
+
+  @@schema("users")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("account")
+  @@schema("auth")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("session")
+  @@schema("auth")
+}
+
+model User {
+  id            String    @id
+  name          String
+  email         String    @unique(map: "email_unique")
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime
+  account       Account[]
+  session       Session[]
+  profile       profile?
+
+  @@map("user")
+  @@schema("auth")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime
+
+  @@index([identifier])
+  @@map("verification")
+  @@schema("auth")
+}
+
+model profile {
+  id                          Int                           @id(map: "profile_pk") @default(autoincrement())
+  firstname                   String                        @db.VarChar
+  lastname                    String                        @db.VarChar
+  nir                         String?                       @db.VarChar
+  gender                      String?                       @db.VarChar
+  photo                       String?                       @db.VarChar
+  created_at                  DateTime?                     @default(now()) @db.Timestamptz(6)
+  updated_at                  DateTime?                     @default(now()) @db.Timestamptz(6)
+  date_of_birth               DateTime?                     @db.Date
+  auth_user_id                String?                       @unique(map: "profile_auth_user_id_unique") @db.VarChar
+  email                       email[]
+  file                        file[]
+  phone                       phone[]
+  user                        User?                         @relation(fields: [auth_user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "profile_user_fk")
+  user_has_address            user_has_address[]
+  user_has_expertise          user_has_expertise[]
+  user_has_rncp               user_has_rncp[]
+  user_has_user_type_contract user_has_user_type_contract[]
+  user_has_worked             user_has_worked[]
 
   @@schema("users")
 }

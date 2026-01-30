@@ -51,7 +51,7 @@ export default function UploadingDocuments() {
     setError(null);
 
     const fd = new FormData();
-    fd.append("userId", "16"); // временно
+
     fd.append("cv", values.cv);
     fd.append("coverLetter", values.coverLetter);
 

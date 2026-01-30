@@ -65,6 +65,7 @@ export default function DiplomaForm() {
 
       try {
         const diplomsRes = await fetch("/api/diplomas");
+
         if (!diplomsRes.ok) throw new Error("diplomas " + diplomsRes.status);
 
         const diplomas = (await diplomsRes.json()) as OptionDiplomas[];
@@ -98,12 +99,10 @@ export default function DiplomaForm() {
   }
 
   async function saveAll() {
-    const userId = 16;
     if (addDiplomas.length === 0) return;
     setSuccess(null);
     try {
       const payload = {
-        userId: userId,
         diplomas: addDiplomas.map((d) => ({
           rncpId: Number(d.diplomaId),
           year: Number(d.yearOfgraduation),

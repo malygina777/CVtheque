@@ -1,7 +1,7 @@
 import prisma from "@/lib/prisma";
 
 export async function getUserPhotoName(userId: number) {
-  const user = await prisma.user.findUnique({
+  const user = await prisma.profile.findUnique({
     where: { id: userId },
     select: { photo: true },
   });

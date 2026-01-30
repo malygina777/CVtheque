@@ -108,18 +108,22 @@ export function CandidateSearch() {
       <div className="flex flex-wrap gap-4 justify-center w-full rounded-lg border bg-background p-3 md:p-6 shadow-sm mt-6">
         <div className="flex flex-wrap gap-4 justify-center ">
           <FirstNameMultiple value={selectedName} onChange={setSelectedName} />
+
           <LastNameMultiple
             value={selectedLastName}
             onChange={setSelectedLastName}
           />
+
           <DiplomaMultiple
             value={selectedDiploma}
             onChange={setSelectedDiploma}
           />
+
           <ExpertiseMultiple
             value={selectedExpertise}
             onChange={setSelectedExpertise}
           />
+
           <StructureMultiple
             value={selectedStructure}
             onChange={setSelectedStructure}

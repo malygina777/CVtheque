@@ -1,15 +1,15 @@
 import { prisma } from "@/lib/prisma";
 
 type DataSelected = {
-  userId: number;
+  profileId: number;
   expertisesId: number[];
 };
 
 export async function saveExpertise(data: DataSelected) {
-  const { userId, expertisesId } = data;
+  const { profileId, expertisesId } = data;
   return prisma.user_has_expertise.createMany({
     data: expertisesId.map((expertiseId) => ({
-      user_id: userId,
+      profile_id: profileId,
       expertise_id: expertiseId,
     })),
     skipDuplicates: true,

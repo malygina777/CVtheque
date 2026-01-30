@@ -1,13 +1,25 @@
 import { saveExpertise } from "@/lib/saveExpertise/saveExpertise";
 import { NextResponse } from "next/server";
+import { auth } from "@/lib/auth";
 
 type DataSelected = {
-  userId: number;
+  profileId: number;
   expertisesId: number[];
 };
 
 export async function POST(req: Request) {
   try {
+    const session = await auth.api.getSession({
+      headers: req.headers,
+    });
+
+    if (!session) {
+      return NextResponse.json(
+        { success: false, error: "Unauthorized" },
+        { status: 401 },
+      );
+    }
+
     const data = (await req.json()) as DataSelected;
 
     const res = await saveExpertise(data);

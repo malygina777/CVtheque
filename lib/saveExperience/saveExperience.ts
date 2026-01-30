@@ -3,9 +3,8 @@ import { ExperienceRow } from "../types/type";
 
 export async function saveExperience(
   experiences: ExperienceRow[],
-  userId = 16,
+  profileId: number,
 ) {
-  console.debug(experiences);
   return prisma.$transaction(async (tx) => {
     for (const e of experiences) {
       let structure = await tx.structure.findFirst({
@@ -18,12 +17,11 @@ export async function saveExperience(
           data: { fullname: e.structureName },
           select: { id: true },
         });
-        console.log(`Insertion structure id=${structure.id}`);
       }
 
       await tx.user_has_worked.create({
         data: {
-          user_id: userId,
+          profile_id: profileId,
           structure_id: structure.id,
           general_domain_id: Number(e.domainId),
           nature_of_activity_id: Number(e.activityId),
@@ -32,7 +30,6 @@ export async function saveExperience(
           end_date: new Date(e.endDate),
         },
       });
-      console.log(`Insertion user_has_worked userId=${userId}`);
     }
     return { ok: true, count: experiences.length };
   });

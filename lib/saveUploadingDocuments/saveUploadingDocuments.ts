@@ -18,14 +18,13 @@ type Docs = {
 const FILE_TYPE_ID_CV = 3;
 const FILE_TYPE_ID_COVER = 4;
 
-export async function saveUploadingDocuments(data: Docs) {
+export async function saveUploadingDocuments(data: Docs, profileId: number) {
   const { cv, cover } = data;
-  const userId = 16;
 
   return prisma.$transaction(async (tx) => {
     await tx.file.create({
       data: {
-        user_id: userId,
+        profile_id: profileId,
         file_type_id: FILE_TYPE_ID_CV,
         file_name: cv.fileName,
         extension: cv.ext,
@@ -36,7 +35,7 @@ export async function saveUploadingDocuments(data: Docs) {
 
     await tx.file.create({
       data: {
-        user_id: userId,
+        profile_id: profileId,
         file_type_id: FILE_TYPE_ID_COVER,
         file_name: cover.fileName,
         extension: cover.ext,

@@ -5,10 +5,13 @@ export type DiplomaPayload = {
   year: number;
 };
 
-export async function createUserRncp(userId = 16, diplomas: DiplomaPayload[]) {
+export async function createUserRncp(
+  profileId: number,
+  diplomas: DiplomaPayload[],
+) {
   return prisma.user_has_rncp.createMany({
     data: diplomas.map((d) => ({
-      user_id: userId,
+      profile_id: profileId,
       rncp_id: d.rncpId,
       date_of_obtaining: d.year,
     })),

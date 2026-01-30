@@ -2,7 +2,7 @@ import prisma from "@/lib/prisma";
 import fs from "fs/promises";
 import path from "path";
 
-export async function createUser(formData: FormData) {
+export async function createUser(formData: FormData, userId: string) {
   const firstname = String(formData.get("firstName") ?? "").trim();
   const lastname = String(formData.get("lastName") ?? "").trim();
   const email = String(formData.get("email") ?? "").trim();
@@ -22,12 +22,13 @@ export async function createUser(formData: FormData) {
   }
 
   const user = await prisma.$transaction(async (tx) => {
-    const user = await tx.user.create({
+    const user = await tx.profile.create({
       data: {
         firstname,
         lastname,
         photo: photoName,
         date_of_birth,
+        auth_user_id: userId,
       },
     });
 
@@ -35,7 +36,7 @@ export async function createUser(formData: FormData) {
       await tx.email.create({
         data: {
           email,
-          user_id: user.id,
+          profile_id: user.id,
           email_type_id: 1,
         },
       });
@@ -45,7 +46,7 @@ export async function createUser(formData: FormData) {
       await tx.phone.create({
         data: {
           number: phone,
-          user_id: user.id,
+          profile_id: user.id,
         },
       });
     }
@@ -53,7 +54,7 @@ export async function createUser(formData: FormData) {
     if (contractId) {
       await tx.user_has_user_type_contract.create({
         data: {
-          user_id: user.id,
+          profile_id: user.id,
           contract_type_id: Number(contractId),
           user_type_id: 1,
         },
