@@ -1,20 +1,18 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "@/lib/prisma";
+import { sendEmail } from "./email";
 
 export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     sendResetPassword: async ({ user, url, token }, request) => {
-      void sendEmail({
+      await sendEmail({
         to: user.email,
         subject: "Reset your password",
-        text: `Click the link to reset your password: ${url}`,
+        html: `<p>Click the link to reset your password:</p>
+      <p><a href="${url}">${url}</a></p>`,
       });
-    },
-    onPasswordReset: async ({ user }, request) => {
-      // your logic here
-      console.log(`Password for user ${user.email} has been reset.`);
     },
   },
   database: prismaAdapter(prisma, {
