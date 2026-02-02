@@ -76,12 +76,12 @@ export default function ConnexionPage() {
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Mot de passe</Label>
-                  <a
-                    href="#"
+                  <Link
+                    href="/forgot-password"
                     className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                   >
                     T'as oublié ton mot de passe?
-                  </a>
+                  </Link>
                 </div>
                 <Input
                   id="password"
