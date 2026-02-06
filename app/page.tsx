@@ -5,7 +5,7 @@
 // import { CandidateSearch } from "@/components/forms/CandidateSearch";
 // import UploadingDocuments from "@/components/forms/UploadingDocuments";
 // import FlashChange from "./appariement/FlashChange";
-import AdminPage from "./adminPage/page";
+// import AdminPage from "./adminPage/page";
 
 export default function Home() {
   return (
@@ -17,7 +17,7 @@ export default function Home() {
       {/* <CandidateSearch /> */}
       {/* <UploadingDocuments /> */}
       {/* <FlashChange /> */}
-      <AdminPage />
+      {/* <AdminPage /> */}
     </main>
   );
 }

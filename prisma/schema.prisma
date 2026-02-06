@@ -400,6 +400,7 @@ model User {
   image         String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime
+  role          String    @default("user") @db.VarChar
   account       Account[]
   session       Session[]
   profile       profile?
