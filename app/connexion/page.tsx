@@ -38,6 +38,7 @@ export default function ConnexionPage() {
         setErrorForm("Email ou mot de passe incorrect.");
         return;
       }
+      router.push("/redirect");
     } catch (e) {
       setErrorForm("Erreur server. Réessaie.");
     } finally {
@@ -100,13 +101,23 @@ export default function ConnexionPage() {
                   </Button>
                   <Button
                     variant="outline"
-                    className="w-full"
+                    className="w-full mt-2 "
                     type="button"
                     onClick={async () =>
                       await authClient.signIn.social({ provider: "google" })
                     }
                   >
                     Login with Google
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="w-full mt-2"
+                    type="button"
+                    onClick={async () =>
+                      await authClient.signIn.social({ provider: "microsoft" })
+                    }
+                  >
+                    Login with Microsoft
                   </Button>
                 </div>
 

@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 
-export async function structureTypePrisma() {
-  const rows = await prisma.structure_type.findMany({
+export async function natureActivityPrisma() {
+  const rows = await prisma.nature_of_activity.findMany({
     select: { id: true, fullname: true },
     orderBy: { fullname: "asc" },
   });

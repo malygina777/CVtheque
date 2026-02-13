@@ -114,12 +114,11 @@ export default function FlashChangeUI({
   }
 
   return (
-    <div className="min-h-screen overflow-x-hidden flex items-center justify-center p-4">
+    <div className="min-h-screen overflow-x-hidden flex items-start justify-center p-4 ">
       <Card className="w-full max-w-6xl p-4 sm:p-6 overflow-hidden">
         {/* Header */}
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <h1 className="text-lg font-semibold">Appariement</h1>
             <p className="text-sm text-muted-foreground">
               1) Choisis un domaine, 2) gère les types de structure liés.
             </p>

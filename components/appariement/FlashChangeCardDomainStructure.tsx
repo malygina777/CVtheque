@@ -1,17 +1,17 @@
 "use client";
 import FlashChangeUI from "./FlashChangeUI";
 
-export default function FlashChange() {
+export default function FlashChangeCardStructure() {
   return (
     <div>
       <FlashChangeUI
         domainsUrl="/api/general-domains"
         structureTypesUrl="/api/structure-types"
         linkSelectedDomain={(id) => {
-          return `/api/general-domains/${id}/structure-types`;
+          return `/api/general-domains-structure/${id}/structure-types`;
         }}
         linkSave={(activeId) => {
-          return `/api/general-domains/${activeId}/structure-types`;
+          return `/api/general-domains-structure/${activeId}/structure-types`;
         }}
       />
     </div>

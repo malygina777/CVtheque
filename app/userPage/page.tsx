@@ -1,21 +1,48 @@
 "use client";
 import { useEffect, useState } from "react";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import CivilityForm from "@/components/forms/CivilityForm";
+import DiplomaForm from "@/components/forms/DiplomaForm";
+import ExperienceForm from "@/components/forms/ExperienceForm";
+import MultiSelectForm from "@/components/forms/MultiSelectForm";
+import UploadingDocuments from "@/components/forms/UploadingDocuments";
 
 type Role = {
   role: string | null;
   name: string;
 };
 
-export default function AdminPage() {
+type ActiveMain = "profile";
+
+export default function UserPage() {
   const [user, setUser] = useState<Role | null>(null);
+
+  const [active, setActive] = useState<ActiveMain>("profile");
+  const router = useRouter();
+  const views = {
+    profile: (
+      <div>
+        <CivilityForm />
+        <DiplomaForm />
+        <ExperienceForm />
+        <MultiSelectForm />
+        <UploadingDocuments />
+      </div>
+    ),
+  };
+
+  async function handlLogout() {
+    await authClient.signOut();
+    router.push("/connexion");
+    router.refresh();
+  }
 
   useEffect(() => {
     async function loadRole() {
       const res = await fetch("/api/getRole");
 
       if (res.status === 401) {
-        // не залогинен: можешь редиректнуть на /connexion
-        // (или просто ничего не показывать)
         return;
       }
 
@@ -42,36 +69,36 @@ export default function AdminPage() {
           >
             <defs>
               <linearGradient id="g4" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#111827" />
-                <stop offset="0.5" stop-color="#64748B" />
-                <stop offset="1" stop-color="#38BDF8" />
+                <stop offset="0" stopColor="#111827" />
+                <stop offset="0.5" stopColor="#64748B" />
+                <stop offset="1" stopColor="#38BDF8" />
               </linearGradient>
             </defs>
 
             <g transform="translate(52,44)">
               <path
-                d="M38 108
-             C38 60, 78 28, 118 36
-             C156 44, 170 86, 144 108
-             C120 128, 82 120, 86 92
-             C90 64, 128 64, 132 84"
+                d={`M38 108
+      C38 60, 78 28, 118 36
+      C156 44, 170 86, 144 108
+      C120 128, 82 120, 86 92
+      C90 64, 128 64, 132 84`}
                 fill="none"
                 stroke="url(#g4)"
-                stroke-width="12"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth={12}
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
 
               <path
-                d="M132 84
-             C148 92, 162 92, 174 82
-             C168 102, 152 118, 132 122"
+                d={`M132 84
+      C148 92, 162 92, 174 82
+      C168 102, 152 118, 132 122`}
                 fill="none"
                 stroke="#111827"
-                stroke-width="8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                opacity="0.9"
+                strokeWidth={8}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                opacity={0.9}
               />
             </g>
 
@@ -79,15 +106,15 @@ export default function AdminPage() {
               <text
                 x="0"
                 y="0"
-                text-anchor="middle"
-                dominant-baseline="middle"
-                font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial"
-                font-size="56"
-                font-weight="800"
+                textAnchor="middle"
+                dominantBaseline="middle"
+                fontFamily="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial"
+                fontSize={56}
+                fontWeight={800}
                 fill="#111827"
               >
                 CV
-                <tspan font-weight="600" fill="#374151">
+                <tspan fontWeight={600} fill="#374151">
                   Theque
                 </tspan>
               </text>
@@ -97,7 +124,11 @@ export default function AdminPage() {
 
         <div className="flex items-center gap-4 text-sm">
           <span className="text-muted-foreground">{user?.name}</span>
-          <button className="underline text-muted-foreground transition-transform hover:scale-150">
+          <button
+            type="button"
+            onClick={handlLogout}
+            className="underline text-muted-foreground transition-transform hover:scale-150"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="17"
@@ -106,11 +137,11 @@ export default function AdminPage() {
               viewBox="0 0 16 16"
             >
               <path
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z"
               />
               <path
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z"
               />
             </svg>
@@ -124,7 +155,10 @@ export default function AdminPage() {
           <nav className="space-y-2">
             {/* user: только Mon profile */}
             {user?.role === "user" && (
-              <button className="w-full text-left rounded-md px-3 py-2 text-sm hover:bg-muted">
+              <button
+                onClick={() => setActive("profile")}
+                className="w-full text-left rounded-md px-3 py-2 text-sm hover:bg-muted"
+              >
                 Mon profile
               </button>
             )}
@@ -137,9 +171,9 @@ export default function AdminPage() {
         </aside>
 
         {/* MAIN CONTENT */}
-        <main className="flex-1 p-6">
-          <div className="h-[calc(100vh-56px-48px)] border-2 rounded-2xl bg-white p-4">
-            <div className="h-full rounded-2xl border bg-muted/30"></div>
+        <main className="flex-1  p-5 overflow-hidden">
+          <div className=" w-full rounded-2xl border bg-muted/30 p-4 overflow-auto">
+            {views[active]}
           </div>
         </main>
       </div>

@@ -433,6 +433,7 @@ model profile {
   updated_at                  DateTime?                     @default(now()) @db.Timestamptz(6)
   date_of_birth               DateTime?                     @db.Date
   auth_user_id                String?                       @unique(map: "profile_auth_user_id_unique") @db.VarChar
+  enable                      Boolean                       @default(true)
   email                       email[]
   file                        file[]
   phone                       phone[]

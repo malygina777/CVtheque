@@ -1,56 +1,61 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+// proxy.ts (В КОРНЕ ПРОЕКТА: рядом с папкой app/)
+import { NextRequest, NextResponse } from "next/server";
+import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
-import { getRole } from "./lib/getRole/getRole";
 
-type Role = "admin" | "teacher" | "user" | null;
+const LOGIN_PATH = "/connexion";
 
-function isPathStartWith(pathname: string, base: string) {
-  return pathname === base || pathname.startsWith(base + "/");
-}
-
-async function getAuth(
-  request: NextRequest,
-): Promise<{ isLoggedIn: boolean; role: Role }> {
-  const session = await auth.api.getSession({ headers: request.headers });
-
-  const userId = session?.user?.id;
-  if (!userId) {
-    return { isLoggedIn: false, role: null };
+// Подставь свои реальные значения ролей:
+function getHomeByRole(role?: string | null) {
+  if (role === "teacher" || role === "admin") {
+    return "/adminTeacherPage";
   }
-
-  const roleOfUser = await getRole(userId);
-
-  if (!roleOfUser) {
-    return { isLoggedIn: true, role: null };
-  }
-
-  return { isLoggedIn: true, role: (roleOfUser.role as Role) ?? "user" };
+  return "/userPage";
 }
 
 export async function proxy(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const { pathname, search } = request.nextUrl;
 
-  const { isLoggedIn, role } = await getAuth(request);
-
-  if (!isLoggedIn) {
-    return NextResponse.redirect(new URL("/connexion", request.url));
+  // 1) Публичные страницы (если нужно)
+  if (pathname.startsWith("/connexion") || pathname.startsWith("/register")) {
+    return NextResponse.next();
   }
 
-  if (role === "user" && isPathStartWith(pathname, "/adminTheacherPage")) {
-    return NextResponse.redirect(new URL("/userPage", request.url));
+  // 2) Если пользователь зашёл на /redirect — отправляем по роли
+  // (обычно ты после логина делаешь router.push("/redirect"))
+  if (pathname === "/redirect") {
+    const session = await auth.api.getSession({ headers: await headers() });
+
+    if (!session?.user) {
+      return NextResponse.redirect(
+        new URL(`${LOGIN_PATH}?next=/redirect`, request.url),
+      );
+    }
+
+    // ВАЖНО: поле роли зависит от твоей конфигурации Better Auth.
+    // Часто это session.user.role или session.user.roles.
+    const role =
+      (session.user as any).role ??
+      (Array.isArray((session.user as any).roles)
+        ? (session.user as any).roles[0]
+        : undefined);
+
+    return NextResponse.redirect(new URL(getHomeByRole(role), request.url));
   }
 
-  if (
-    (role === "admin" || role === "teacher") &&
-    isPathStartWith(pathname, "/userPage")
-  ) {
-    return NextResponse.redirect(new URL("/adminTheacherPage", request.url));
+  // 3) Защита страниц
+  const session = await auth.api.getSession({ headers: await headers() });
+
+  if (!session?.user?.id) {
+    const next = encodeURIComponent(pathname + (search || ""));
+    return NextResponse.redirect(
+      new URL(`${LOGIN_PATH}?next=${next}`, request.url),
+    );
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/adminTheacherPage/:path*", "/userPage/:path*"],
+  matcher: ["/adminTeacherPage/:path*", "/userPage/:path*", "/redirect"],
 };

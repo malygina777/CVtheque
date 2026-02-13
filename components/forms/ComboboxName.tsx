@@ -35,7 +35,7 @@ export function FirstNameMultiple({ value, onChange }: Props) {
         const data = (await res.json()) as getCandidate[];
         if (data.length > 0) {
           const titles = data.map((n) => n.firstname);
-          console.log(titles);
+
           setName(titles);
         }
       } catch (e) {

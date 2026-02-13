@@ -1,12 +1,15 @@
 import { prisma } from "@/lib/prisma";
 
-export async function getAllCandidatesPrisma() {
+export async function getAllCandidatesPrisma(role: string) {
+  const where = role === "teacher" ? { enable: true } : {};
   const users = await prisma.profile.findMany({
+    where,
     select: {
       id: true,
       firstname: true,
       lastname: true,
       photo: true,
+      enable: true,
 
       email: { select: { email: true } },
       phone: { select: { number: true } },
@@ -34,6 +37,7 @@ export async function getAllCandidatesPrisma() {
     id: u.id,
     firstname: u.firstname,
     lastname: u.lastname,
+    enable: u.enable,
     photoUrl: u.photo ?? null,
 
     email: u.email[0]?.email ?? null,
