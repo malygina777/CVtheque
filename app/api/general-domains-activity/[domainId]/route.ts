@@ -21,10 +21,22 @@ export async function PUT(req: Request, { params }: Ctx) {
   const { domainId } = await params;
   const domain_Id = Number(domainId);
   const body = await req.json();
+
+  console.log("domainId param:", domainId, "->", domain_Id);
+  console.log("body:", body);
+  const selectedIdss: unknown = body.selectedIds ?? [];
+  console.log("selectedIds raw:", selectedIdss);
+
   const selectedIds: string[] = body.selectedIds ?? [];
   const ids = selectedIds
     .map((x) => Number(x))
     .filter((x) => Number.isFinite(x));
+  console.log(
+    "ids parsed:",
+    ids,
+    "types:",
+    ids.map((x) => typeof x),
+  );
   const res = await updateNatureActivity(domain_Id, ids);
   return NextResponse.json(res);
 }

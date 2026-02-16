@@ -9,6 +9,12 @@ export async function updateStructureType(domainId: number, ids: number[]) {
     if (ids.length === 0) {
       return { inserted: 0 };
     }
+    console.log("domainId:", domainId);
+    console.log("ids raw:", ids);
+    console.log(
+      "ids types:",
+      ids.map((x) => [x, typeof x]),
+    );
     const created = await tx.general_domain_has_structure_type.createMany({
       data: ids.map((structure_type_id) => ({
         general_domain_id: domainId,

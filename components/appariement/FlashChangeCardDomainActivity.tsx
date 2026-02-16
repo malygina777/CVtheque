@@ -5,13 +5,13 @@ export default function FlashChangeCardActivity() {
   return (
     <div>
       <FlashChangeUI
-        domainsUrl="/api/general-domains"
+        domainsUrl="/api/general-domains-structure"
         structureTypesUrl="/api/nature-activity"
         linkSelectedDomain={(id) => {
-          return `/api/general-domains-activity/${id}/nature-activity`;
+          return `/api/general-domains-activity/${id}`;
         }}
         linkSave={(activeId) => {
-          return `/api/general-domains-activity/${activeId}/nature-activity`;
+          return `/api/general-domains-activity/${activeId}`;
         }}
       />
     </div>

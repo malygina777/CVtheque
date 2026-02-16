@@ -5,7 +5,7 @@ export default function FlashChangeCardStructure() {
   return (
     <div>
       <FlashChangeUI
-        domainsUrl="/api/general-domains"
+        domainsUrl="/api/general-domains-structure"
         structureTypesUrl="/api/structure-types"
         linkSelectedDomain={(id) => {
           return `/api/general-domains-structure/${id}/structure-types`;

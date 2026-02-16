@@ -42,13 +42,29 @@ export default function FlashChangeUI({
       // 1) загрузить домены
       fetch(domainsUrl)
         .then((r) => r.json())
-        .then(setDomains)
+        .then((rows) => {
+          const normalized: Domain[] = (Array.isArray(rows) ? rows : []).map(
+            (x: any) => ({
+              id: String(x?.id),
+              label: String(x?.label ?? x?.fullname ?? x?.shortname ?? x?.id),
+            }),
+          );
+          setDomains(normalized);
+        })
         .catch(() => setDomains([]));
 
-      // 2) загрузить все structure_type
+      // 2) загрузить все structure_type / nature_of_activity
       fetch(structureTypesUrl)
         .then((r) => r.json())
-        .then(setStructureTypes)
+        .then((rows) => {
+          const normalized: ST[] = (Array.isArray(rows) ? rows : []).map(
+            (x: any) => ({
+              id: String(x?.id),
+              label: String(x?.label ?? x?.fullname ?? x?.shortname ?? x?.id),
+            }),
+          );
+          setStructureTypes(normalized);
+        })
         .catch(() => setStructureTypes([]));
     }
 
@@ -60,25 +76,35 @@ export default function FlashChangeUI({
     setCheckedCenter([]);
     setCheckedRight([]);
 
-    // 3) загрузить связи для выбранного домена
-
     const res = await fetch(linkSelectedDomain(domainId));
     if (!res.ok) {
-      // если 400/500 — не трогаем массив, сбрасываем
       setSelectedIds([]);
       console.error("API error", res.status);
       return;
     }
 
     const data = await res.json();
-    setSelectedIds(Array.isArray(data) ? data : []);
+
+    let raw: unknown[] = [];
+    if (Array.isArray(data)) raw = data;
+    else if (data && Array.isArray((data as any).selectedIds))
+      raw = (data as any).selectedIds;
+
+    const normalized = raw
+      .map((x: any) => {
+        if (x && typeof x === "object") {
+          return String(x.nature_of_activity_id ?? x.structure_type_id ?? x.id);
+        }
+        return String(x);
+      })
+      .filter((x) => x !== "undefined" && x !== "null" && x !== "NaN");
+
+    setSelectedIds(normalized);
   }
 
-  // ======= вычисляем списки =======
   const center = structureTypes.filter((st) => selectedIds.includes(st.id));
   const right = structureTypes.filter((st) => !selectedIds.includes(st.id));
 
-  // ======= перенос =======
   function addToCenter() {
     // переносим выбранные справа -> в центр
     setSelectedIds((prev) => [...new Set([...prev, ...checkedRight])]);
@@ -181,7 +207,7 @@ export default function FlashChangeUI({
                 <p className="text-sm font-semibold">Liés au domaine</p>
                 <p className="text-xs text-muted-foreground truncate">
                   {activeDomainId
-                    ? `Domaine: ${activeDomainId} `
+                    ? `Domaine: ${activeDomainId}`
                     : "Choisis un domaine"}
                 </p>
               </div>
