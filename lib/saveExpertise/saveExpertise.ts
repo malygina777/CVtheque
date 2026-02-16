@@ -7,7 +7,8 @@ type DataSelected = {
 
 export async function saveExpertise(data: DataSelected) {
   const { profileId, expertisesId } = data;
-  return prisma.user_has_expertise.createMany({
+
+  return await prisma.user_has_expertise.createMany({
     data: expertisesId.map((expertiseId) => ({
       profile_id: profileId,
       expertise_id: expertiseId,

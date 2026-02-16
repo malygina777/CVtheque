@@ -39,12 +39,11 @@ export default function MultiSelectForm() {
 
   async function saveOptionsExpertise(e: React.FormEvent) {
     e.preventDefault();
-    const userId = 16;
+
     setStatus(null);
     if (selected.length === 0) return;
     try {
       const payload = {
-        userId: userId,
         expertisesId: selected.map((id) => Number(id)),
       };
 

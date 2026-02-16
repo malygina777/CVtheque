@@ -22,17 +22,30 @@ export async function createUser(formData: FormData, userId: string) {
   }
 
   const user = await prisma.$transaction(async (tx) => {
-    const user = await tx.profile.create({
-      data: {
+    // ✅ CREATE если нет профиля, иначе UPDATE
+    const user = await tx.profile.upsert({
+      where: { auth_user_id: userId },
+      create: {
         firstname,
         lastname,
         photo: photoName,
         date_of_birth,
         auth_user_id: userId,
       },
+      update: {
+        firstname,
+        lastname,
+        date_of_birth,
+        ...(photoName ? { photo: photoName } : {}), // не затираем фото пустым
+      },
     });
 
+    // ✅ EMAIL: обновляем (без дублей)
     if (email) {
+      await tx.email.deleteMany({
+        where: { profile_id: user.id },
+      });
+
       await tx.email.create({
         data: {
           email,
@@ -42,7 +55,12 @@ export async function createUser(formData: FormData, userId: string) {
       });
     }
 
+    // ✅ PHONE: обновляем (без дублей)
     if (phone) {
+      await tx.phone.deleteMany({
+        where: { profile_id: user.id },
+      });
+
       await tx.phone.create({
         data: {
           number: phone,
@@ -51,7 +69,12 @@ export async function createUser(formData: FormData, userId: string) {
       });
     }
 
+    // ✅ CONTRACT: обновляем (без дублей)
     if (contractId) {
+      await tx.user_has_user_type_contract.deleteMany({
+        where: { profile_id: user.id },
+      });
+
       await tx.user_has_user_type_contract.create({
         data: {
           profile_id: user.id,
@@ -64,6 +87,7 @@ export async function createUser(formData: FormData, userId: string) {
     return user;
   });
 
+  // ✅ сохраняем файл после транзакции
   if (photo instanceof File && photo.size > 0) {
     const buffer = Buffer.from(await photo.arrayBuffer());
 

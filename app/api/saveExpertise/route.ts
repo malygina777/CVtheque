@@ -1,9 +1,9 @@
 import { saveExpertise } from "@/lib/saveExpertise/saveExpertise";
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
+import { getProfilePrisma } from "@/lib/getProfile/getProfilePrisma";
 
 type DataSelected = {
-  profileId: number;
   expertisesId: number[];
 };
 
@@ -20,10 +20,17 @@ export async function POST(req: Request) {
       );
     }
 
+    const currentProfile = await getProfilePrisma(session.user.id);
     const data = (await req.json()) as DataSelected;
+    const { expertisesId } = data;
 
-    const res = await saveExpertise(data);
-    return NextResponse.json(res, { status: 200 });
+    if (currentProfile && expertisesId) {
+      const res = await saveExpertise({
+        profileId: currentProfile,
+        expertisesId: expertisesId,
+      });
+      return NextResponse.json(res, { status: 200 });
+    }
   } catch (e) {
     return NextResponse.json(
       { error: "Une erreur est survenue" },
