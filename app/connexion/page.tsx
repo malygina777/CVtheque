@@ -38,7 +38,8 @@ export default function ConnexionPage() {
         setErrorForm("Email ou mot de passe incorrect.");
         return;
       }
-      router.push("/redirect");
+      router.replace("/redirect");
+      router.refresh();
     } catch (e) {
       setErrorForm("Erreur server. Réessaie.");
     } finally {
