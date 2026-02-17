@@ -133,7 +133,7 @@ export default function AdminPage() {
       <div className="min-h-screen bg-background flex flex-col items-center justify-center gap-3 p-6">
         <div className="text-sm text-red-600">Erreur: {roleError}</div>
         <button
-          className="rounded-md border px-3 py-2 text-sm hover:bg-muted"
+          className="rounded-md border px-3 py-2 text-sm hover:bg-blue"
           onClick={() => router.refresh()}
           type="button"
         >
@@ -153,7 +153,7 @@ export default function AdminPage() {
   const isTeacher = user.role === "teacher";
 
   return (
-    <div className="min-h-screen overflow-hidden bg-background">
+     <div className="min-h-screen bg-background">
       {/* TOP BAR */}
       <header className="h-14 w-full border-b-2 bg-white flex items-center justify-between px-4">
         <div className="text-lg font-semibold">
@@ -249,15 +249,20 @@ export default function AdminPage() {
         </div>
       </header>
 
-      <div className="flex h-[calc(100vh-56px)] min-h-0">
+      <div className="flex">
         {/* LEFT SIDEBAR */}
-        <aside className="w-64 border-r-2 bg-white p-4 overflow-auto">
+        <aside className="w-64 border-r-2 bg-white p-4">
           <nav className="space-y-2">
             {isAdmin && (
               <>
                 <div>
                   <button
-                    className="w-full text-left rounded-md px-3 py-2 text-sm hover:bg-muted"
+                    className="w-full text-left rounded-md px-3 py-2 text-sm transition-all duration-150
+
+hover:bg-sky-100
+hover:scale-[1.02]
+hover:text-sky-700
+cursor-pointer"
                     onClick={() => setOpenConfig((v) => !v)}
                     type="button"
                   >
@@ -267,7 +272,12 @@ export default function AdminPage() {
                   {openConfig && (
                     <div className="ml-4">
                       <button
-                        className="w-full text-left rounded-md px-3 py-2 text-sm hover:bg-muted"
+                        className="w-full text-left rounded-md px-3 py-2 text-sm transition-all duration-150
+
+hover:bg-sky-100
+hover:scale-[1.02]
+hover:text-sky-700
+cursor-pointer"
                         onClick={() => setOpenAssoc((v) => !v)}
                         type="button"
                       >
@@ -277,7 +287,12 @@ export default function AdminPage() {
                       {openAssoc && (
                         <div className="ml-4">
                           <button
-                            className="w-full text-left rounded-md px-3 py-2 text-sm hover:bg-muted"
+                            className="w-full text-left rounded-md px-3 py-2 text-sm transition-all duration-150
+
+hover:bg-sky-100
+hover:scale-[1.02]
+hover:text-sky-700
+cursor-pointer"
                             onClick={() => setActive("structure")}
                             type="button"
                           >
@@ -285,7 +300,12 @@ export default function AdminPage() {
                           </button>
 
                           <button
-                            className="w-full text-left rounded-md px-3 py-2 text-sm hover:bg-muted"
+                            className="w-full text-left rounded-md px-3 py-2 text-sm transition-all duration-150
+
+hover:bg-sky-100
+hover:scale-[1.02]
+hover:text-sky-700
+cursor-pointer"
                             onClick={() => setActive("activity")}
                             type="button"
                           >
@@ -299,7 +319,12 @@ export default function AdminPage() {
 
                 <button
                   onClick={() => setActive("recherche")}
-                  className="w-full text-left rounded-md px-3 py-2 text-sm hover:bg-muted"
+                  className="w-full text-left rounded-md px-3 py-2 text-sm transition-all duration-150
+
+hover:bg-sky-100
+hover:scale-[1.02]
+hover:text-sky-700
+cursor-pointer"
                   type="button"
                 >
                   Recherche
@@ -307,7 +332,12 @@ export default function AdminPage() {
 
                 <button
                   onClick={() => setActive("utilisateur")}
-                  className="w-full text-left rounded-md px-3 py-2 text-sm hover:bg-muted"
+                  className="w-full text-left rounded-md px-3 py-2 text-sm transition-all duration-150
+
+hover:bg-sky-100
+hover:scale-[1.02]
+hover:text-sky-700
+cursor-pointer"
                   type="button"
                 >
                   Utilisateur
@@ -315,7 +345,12 @@ export default function AdminPage() {
 
                 <button
                   onClick={() => setActive("profile")}
-                  className="w-full text-left rounded-md px-3 py-2 text-sm hover:bg-muted"
+                  className="w-full text-left rounded-md px-3 py-2 text-sm transition-all duration-150
+
+hover:bg-sky-100
+hover:scale-[1.02]
+hover:text-sky-700
+cursor-pointer"
                   type="button"
                 >
                   Mon profil
@@ -327,7 +362,12 @@ export default function AdminPage() {
               <>
                 <button
                   onClick={() => setActive("recherche")}
-                  className="w-full text-left rounded-md px-3 py-2 text-sm hover:bg-muted"
+                  className="w-full text-left rounded-md px-3 py-2 text-sm transition-all duration-150
+
+hover:bg-sky-100
+hover:scale-[1.02]
+hover:text-sky-700
+cursor-pointer"
                   type="button"
                 >
                   Recherche
@@ -335,7 +375,12 @@ export default function AdminPage() {
 
                 <button
                   onClick={() => setActive("profile")}
-                  className="w-full text-left rounded-md px-3 py-2 text-sm hover:bg-muted"
+                  className="w-full text-left rounded-md px-3 py-2 text-sm transition-all duration-150
+
+hover:bg-sky-100
+hover:scale-[1.02]
+hover:text-sky-700
+cursor-pointer"
                   type="button"
                 >
                   Mon profil
@@ -352,11 +397,13 @@ export default function AdminPage() {
         </aside>
 
         {/* MAIN CONTENT */}
-        <main className="flex-1 min-h-0 p-5 overflow-hidden">
-          <div className="h-full w-full rounded-2xl border bg-muted/30 p-4 overflow-auto">
+        <main className="flex-1  p-5 overflow-hidden">
+          <div className=" w-full rounded-2xl border bg-muted/30 p-4 overflow-auto">
             {content}
           </div>
         </main>
+
+
       </div>
     </div>
   );
