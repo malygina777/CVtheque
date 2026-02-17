@@ -47,7 +47,7 @@ export default function ForgotPasswordPage() {
               <Input id="email" name="email" type="email" required />
             </div>
 
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button type="submit" className="w-full mt-2 hover:scale-[1.02]" disabled={loading}>
               {loading ? "Envoi..." : "Envoyer le lien"}
             </Button>
 

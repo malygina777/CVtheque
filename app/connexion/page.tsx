@@ -97,22 +97,32 @@ export default function ConnexionPage() {
                 )}
 
                 <div className="flex-col gap-2">
-                  <Button type="submit" className="w-full" disabled={loading}>
+                  <Button type="submit" className="w-full hover:scale-[1.02]" disabled={loading}>
                     {loading ? "Connexion..." : "Login"}
                   </Button>
                   <Button
                     variant="outline"
-                    className="w-full mt-2 "
+                    className="w-full mt-2 transition-all duration-150
+
+hover:bg-amber-100
+hover:scale-[1.02]
+hover:text-cyan-700
+cursor-pointer"
                     type="button"
                     onClick={async () =>
-                      await authClient.signIn.social({ provider: "google" })
+                      await authClient.signIn.social({ provider: "google", callbackURL: "/redirect", })
                     }
                   >
                     Login with Google
                   </Button>
                   <Button
                     variant="outline"
-                    className="w-full mt-2"
+                    className="w-full mt-2 transition-all duration-150
+
+hover:bg-amber-100
+hover:scale-[1.02]
+hover:text-cyan-700
+cursor-pointer"
                     type="button"
                     onClick={async () =>
                       await authClient.signIn.social({ provider: "microsoft" })
