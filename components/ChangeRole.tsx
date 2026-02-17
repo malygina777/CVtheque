@@ -130,7 +130,7 @@ export function ChangeRole() {
 
                           <Button
                             variant="outline"
-                            className="ml-2 hover:bg-green-50"
+                            className="ml-2 hover:bg-green-300 hover:scale-[1.04] transition-all duration-150 cursor-pointer"
                             onClick={() => saveRole(u.id, u.role)}
                           >
                             Enregistrer
