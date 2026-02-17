@@ -157,7 +157,12 @@ export default function UserPage() {
             {user?.role === "user" && (
               <button
                 onClick={() => setActive("profile")}
-                className="w-full text-left rounded-md px-3 py-2 text-sm hover:bg-muted"
+                 className="w-full text-left rounded-md px-3 py-2 text-sm transition-all duration-150
+
+hover:bg-sky-100
+hover:scale-[1.02]
+hover:text-sky-700
+cursor-pointer"
               >
                 Mon profile
               </button>

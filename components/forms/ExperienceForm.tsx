@@ -295,12 +295,11 @@ export default function ExperienceForm() {
   return (
     <Form {...form}>
       <form className="w-full px-4 md:px-6 md:p-6">
-        {/* CARD */}
-        <div className="w-full max-w-2xl mx-auto rounded-lg border bg-background p-6 shadow-sm mt-6">
+        <div className="w-full max-w-2xl mx-auto rounded-lg border bg-background p-6 shadow-sm mt-6 min-w-0 overflow-hidden">
           <h3 className="text-lg font-semibold text-foreground">Experience</h3>
 
           {/* FIELDS */}
-          <fieldset className="mt-6 space-y-5">
+          <fieldset className="mt-6 space-y-5 min-w-0">
             <FormField
               control={form.control}
               name="domain"
@@ -313,7 +312,7 @@ export default function ExperienceForm() {
                     <select
                       value={field.value}
                       onChange={field.onChange}
-                      className="h-10 w-full rounded-md border bg-background px-3 py-2 text-sm shadow-sm outline-none transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                      className="block h-10 w-full max-w-full min-w-0 rounded-md border bg-background px-3 py-2 text-sm shadow-sm outline-none transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                     >
                       <option value="">
                         {domainsLoading ? "Chargement..." : "--Choisir--"}
@@ -343,7 +342,7 @@ export default function ExperienceForm() {
                     <select
                       value={field.value}
                       onChange={field.onChange}
-                      className="h-10 w-full rounded-md border bg-background px-3 py-2 text-sm shadow-sm outline-none transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                      className="block h-10 w-full max-w-full min-w-0 rounded-md border bg-background px-3 py-2 text-sm shadow-sm outline-none transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                       disabled={!selectedDomainId || activitiesLoading}
                     >
                       <option value="">
@@ -374,7 +373,7 @@ export default function ExperienceForm() {
                     <select
                       value={field.value}
                       onChange={field.onChange}
-                      className="h-10 w-full rounded-md border bg-background px-3 py-2 text-sm shadow-sm outline-none transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                      className="block h-10 w-full max-w-full min-w-0 rounded-md border bg-background px-3 py-2 text-sm shadow-sm outline-none transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                     >
                       <option value="">
                         {typeOfStructureLoading
@@ -408,7 +407,7 @@ export default function ExperienceForm() {
                         {...field}
                         list="structures-list"
                         placeholder="Saisir ou choisir une structure"
-                        className="h-10 w-full rounded-md border bg-background px-3 py-2 text-sm shadow-sm outline-none transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                        className="block h-10 w-full max-w-full min-w-0 rounded-md border bg-background px-3 py-2 text-sm shadow-sm outline-none transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                       />
                       <datalist id="structures-list">
                         {nameOfStructure.map((s) => (
@@ -431,7 +430,7 @@ export default function ExperienceForm() {
                     Date de début
                   </FormLabel>
                   <FormControl>
-                    <Input type="date" {...field} className="h-10 w-full" />
+                    <Input type="date" {...field} className="block h-10 w-full max-w-full min-w-0" />
                   </FormControl>
                   <FormMessage className="text-xs" />
                 </FormItem>
@@ -447,7 +446,7 @@ export default function ExperienceForm() {
                     Date de fin
                   </FormLabel>
                   <FormControl>
-                    <Input type="date" {...field} className="h-10 w-full" />
+                    <Input type="date" {...field} className="block h-10 w-full max-w-full min-w-0" />
                   </FormControl>
                   <FormMessage className="text-xs" />
                 </FormItem>
@@ -474,8 +473,8 @@ export default function ExperienceForm() {
             </div>
 
             {/* DESKTOP TABLE */}
-            <div className="mt-6 rounded-lg border border-border overflow-hidden hidden md:block overflow-x-auto w-full">
-              <div className="px-4 py-3 text-sm text-muted-foreground border-b border-border ">
+            <div className="mt-6 rounded-lg border border-border overflow-hidden hidden md:block">
+              <div className="px-4 py-3 text-sm text-muted-foreground border-b border-border">
                 Ajouter vos expériences et retrouvez-les ci-dessous
               </div>
 
@@ -541,11 +540,12 @@ export default function ExperienceForm() {
                           <TableCell className="border-r text-center truncate whitespace-nowrap">
                             {d.endDate}
                           </TableCell>
-                          <TableCell className="text-center">
+                          <TableCell className="border-r p-0">
+  <div className="flex items-center justify-center h-full py-1">
                             <Button
                               type="button"
                               variant="ghost"
-                              className="h-8 w-8 p-0 text-destructive hover:bg-destructive/10"
+                              className="h-8 w-8 p-0  text-destructive hover:bg-destructive/10"
                               onClick={() =>
                                 setDiplomas((prev) =>
                                   prev.filter((_, i) => i !== index),
@@ -554,6 +554,7 @@ export default function ExperienceForm() {
                             >
                               ×
                             </Button>
+                            </div>
                           </TableCell>
                         </TableRow>
                       ))

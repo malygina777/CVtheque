@@ -225,7 +225,7 @@ export default function AdminPage() {
           <button
             type="button"
             onClick={handlLogout}
-            className="underline text-muted-foreground transition-transform hover:scale-110"
+            className="underline text-muted-foreground transition-transform hover:scale-150"
           >
             <div>
               <svg

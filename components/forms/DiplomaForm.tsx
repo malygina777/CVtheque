@@ -81,7 +81,7 @@ export default function DiplomaForm() {
   }, []);
 
   function addDiploma(values: FormValues) {
-    // values.diploma = "18558" (id из select)
+    
     const label =
       diplomaOptions.find((x) => String(x.id) === values.diploma)?.intitule ??
       "";
