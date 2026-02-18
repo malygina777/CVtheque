@@ -134,14 +134,16 @@ export function CandidateSearch() {
   }
 
   return (
-    <div className=" min-h-screen overflow-x-hidden flex items-start justify-center p-4">
-      <div className="w-full px-2 md:px-3">
+    <div className=" min-h-screen overflow-x-hidden flex items-start justify-center p-4 ">
+      <div className="w-full px-2 md:px-3 border-black/40 divide-y divide-black/30 bg-white">
         <div className="flex flex-wrap gap-4 justify-center w-full rounded-lg border bg-background p-3 md:p-6 shadow-sm mt-3">
           <div className="flex flex-wrap gap-4 justify-center ">
+            
             <FirstNameMultiple
               value={selectedName}
               onChange={setSelectedName}
             />
+                
 
             <LastNameMultiple
               value={selectedLastName}
@@ -164,13 +166,13 @@ export function CandidateSearch() {
             />
           </div>
         </div>
-        <div className="w-full rounded-lg border bg-background p-3 md:p-3 shadow-sm mt-6">
+        <div className="w-full rounded-lg border bg-background p-3 md:p-3 shadow-sm mt-6 border-black/40 divide-y divide-black/30 bg-white">
           <div className="relative">
             <div className="w-full overflow-x-scroll [-webkit-overflow-scrolling:touch]">
               <div className="min-w-[1100px]">
                 <Table className="w-full">
-                  <TableHeader>
-                    <TableRow className="bg-blue-500  hover:bg-blue-500">
+                  <TableHeader className="bg-amber-900 ">
+                    <TableRow >
                       <TableHead className="border-r text-center font-semibold text-white">
                         Candidate
                       </TableHead>
@@ -198,7 +200,7 @@ export function CandidateSearch() {
 
                   <TableBody>
                     {!hasAnyFilter ? (
-                      <TableRow className="bg-blue-50">
+                      <TableRow className="hover:!bg-lime-200 hover:!scale-[1.04]">
                         <TableCell
                           colSpan={6}
                           className="py-6 text-center text-sm text-slate-600"
@@ -208,7 +210,7 @@ export function CandidateSearch() {
                         </TableCell>
                       </TableRow>
                     ) : loading ? (
-                      <TableRow className="bg-blue-50">
+                      <TableRow className="hover:!bg-lime-200 hover:!scale-[1.04]">
                         <TableCell
                           colSpan={6}
                           className="py-6 text-center text-sm text-slate-600"
@@ -217,7 +219,7 @@ export function CandidateSearch() {
                         </TableCell>
                       </TableRow>
                     ) : filteredCandidates.length === 0 ? (
-                      <TableRow className="bg-blue-50">
+                      <TableRow className="hover:!bg-lime-200 hover:!scale-[1.04]">
                         <TableCell
                           colSpan={6}
                           className="py-6 text-center text-sm text-slate-600"
@@ -238,14 +240,14 @@ export function CandidateSearch() {
                             key={c.id}
                             className={
                               c.enable
-                                ? "bg-blue-50 hover:bg-blue-100 transition-colors"
+                                ? "hover:!bg-lime-200 hover:!scale-[1.01]"
                                 : "bg-gray-200 text-gray-400 opacity-60"
                             }
                           >
                             {/* Candidate (photo + name + email) */}
                             <TableCell className="min-w-[80px]">
                               <div className="flex items-center gap-3">
-                                <div className="relative h-10 w-10 overflow-hidden rounded-full bg-blue-400 shrink-0">
+                                <div className="relative h-10 w-10 overflow-hidden rounded-full bg-amber-800 shrink-0">
                                   {hasPhoto ? (
                                     <Image
                                       src={`/api/img/photo/${c.photoUrl}`}
@@ -255,7 +257,7 @@ export function CandidateSearch() {
                                       sizes="40px"
                                     />
                                   ) : (
-                                    <div className="flex h-full w-full items-center justify-center text-xs font-semibold text-muted-foreground">
+                                    <div className="flex h-full w-full items-center justify-center text-xs font-semibold text-white">
                                       {`${c.firstname?.[0] ?? ""}${c.lastname?.[0] ?? ""}`.toUpperCase()}
                                     </div>
                                   )}

@@ -130,11 +130,11 @@ export default function DiplomaForm() {
 
   return (
     <Form {...form}>
-      <form className="w-full px-4 md:px-6 md:p-6">
-        <div className="w-full max-w-2xl mx-auto rounded-lg border bg-background p-6 shadow-sm mt-6">
+      <form className="w-full px-4 md:px-6 md:p-6 ">
+        <div className="w-full max-w-2xl mx-auto rounded-lg border bg-background p-6 shadow-sm mt-6 border-black/40 divide-y divide-black/30 bg-white">
           <h3 className="text-lg font-semibold text-foreground">Diplôme</h3>
 
-          <fieldset className="mt-6 space-y-5">
+          <fieldset className="mt-6 space-y-5 ">
             {/* Diplome */}
             <FormField
               control={form.control}
@@ -148,7 +148,7 @@ export default function DiplomaForm() {
                     <select
                       value={field.value}
                       onChange={field.onChange}
-                      className="h-10 w-full rounded-md border bg-background px-3 py-2 text-sm shadow-sm outline-none transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                      className="h-10 w-full rounded-md border bg-background px-3 py-2 text-sm shadow-sm outline-none transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border-black/40 divide-y divide-black/30 bg-white"
                     >
                       {loadingDiplomas ? (
                         <option value="" disabled>
@@ -184,7 +184,7 @@ export default function DiplomaForm() {
                     <Input
                       placeholder="AAAA"
                       {...field}
-                      className="h-10 w-full"
+                      className="h-10 w-full border-black/40 divide-y divide-black/30 bg-white"
                     />
                   </FormControl>
                   <FormMessage className="text-xs" />
@@ -197,14 +197,14 @@ export default function DiplomaForm() {
               <Button
                 type="button"
                 onClick={form.handleSubmit(addDiploma)}
-                className="w-fit px-8 bg-blue-600 hover:bg-blue-700 text-white"
+                className="w-fit bg-black ml-2 hover:bg-amber-700 hover:scale-[1.08] hover:text-black transition-all duration-150 cursor-pointer border-black/40 divide-y divide-black/30"
               >
                 Ajouter
               </Button>
 
               <Button
                 type="button"
-                className="w-fit px-10 bg-green-600 hover:bg-green-700 text-white"
+                className="w-fit bg-black ml-2 hover:bg-green-300 hover:scale-[1.08] hover:text-black transition-all duration-150 cursor-pointer border-black/40 divide-y divide-black/30"
                 onClick={saveAll}
               >
                 Enregistrer
@@ -212,7 +212,7 @@ export default function DiplomaForm() {
             </div>
 
             {success !== null && (
-              <div className={success ? "text-green-600" : "text-green-600"}>
+              <div className={success ? "text-green-600" : "text-red-600"}>
                 {success
                   ? "Le formulaire a été envoyé avec succès"
                   : "Use erreur est survenue. Le formulaire ne a pas été envoyé "}
@@ -220,20 +220,20 @@ export default function DiplomaForm() {
             )}
 
             {/* DESKTOP TABLE */}
-            <div className="mt-6 rounded-lg border border-border overflow-hidden hidden md:block">
+            <div className="mt-6 rounded-lg border border-slate-500 overflow-hidden hidden md:block ">
               <div className="px-4 py-3 text-sm text-muted-foreground border-b border-border">
                 Ajouter vos diplômes et retrouvez-les ci-dessous
               </div>
 
-              <div className="max-h-64 overflow-y-auto overflow-x-auto">
-                <Table className="w-full table-fixed">
-                  <TableHeader>
-                    <TableRow className="bg-muted/60">
-                      <TableHead className="w-1/1 border-r font-semibold text-center">
+              <div className="max-h-64 overflow-y-auto overflow-x-auto ">
+                <Table className="w-full table-fixed ">
+                  <TableHeader className="border-t border-black/30  ">
+                    <TableRow className=" border-black/40 bg-teal-100">
+                      <TableHead className="w-1/1 border-r border-black/30 font-semibold text-center ">
                         Diplôme
                       </TableHead>
 
-                      <TableHead className="w-1/3 border-r text-center font-semibold">
+                      <TableHead className="w-1/3 border-r border-black/30 text-center font-semibold ">
                         Année
                       </TableHead>
                       <TableHead className="w-1/4 border-r text-center font-semibold">
@@ -244,10 +244,10 @@ export default function DiplomaForm() {
 
                   <TableBody>
                     {addDiplomas.length === 0 ? (
-                      <TableRow>
+                      <TableRow >
                         <TableCell
                           colSpan={5}
-                          className="py-6 text-center text-sm text-muted-foreground"
+                          className="py-6 text-center text-sm text-muted-foreground border-black/30 "
                         >
                           Aucun diplôme ajouté pour le moment
                         </TableCell>
@@ -256,21 +256,21 @@ export default function DiplomaForm() {
                       addDiplomas.map((d, index) => (
                         <TableRow
                           key={index}
-                          className="hover:bg-muted/40 transition-colors"
+                          className="transition-colors hover:!bg-lime-200 hover:!scale-[1.01] transition-colors border-black/30 "
                         >
-                          <TableCell className="border-r text-center truncate whitespace-nowrap">
+                          <TableCell className="border-r text-center truncate whitespace-nowrap border-black/30 ">
                             {d.diplomaLabel || d.diplomaId}
                           </TableCell>
 
-                          <TableCell className="border-r text-center truncate whitespace-nowrap">
+                          <TableCell className="border-r text-center truncate whitespace-nowrap border-black/30 ">
                             {d.yearOfgraduation}
                           </TableCell>
 
-                          <TableCell className="text-center">
+                          <TableCell className="text-center border-black/30 ">
                             <Button
                               type="button"
                               variant="ghost"
-                              className="h-8 w-8 p-0 text-destructive hover:bg-destructive/10"
+                              className="h-8 w-8 p-0 text-destructive hover:bg-destructive/30"
                               onClick={() =>
                                 setAddDiplomas((prev) =>
                                   prev.filter((_, i) => i !== index),
@@ -289,9 +289,9 @@ export default function DiplomaForm() {
             </div>
 
             {/* MOBILE CARDS */}
-            <div className="mt-6 md:hidden space-y-3">
+            <div className="mt-6 md:hidden space-y-3 border-black/40 divide-y divide-black/30 bg-white">
               {addDiplomas.length === 0 ? (
-                <div className="py-8 text-center text-sm text-muted-foreground border border-border rounded-lg">
+                <div className="py-8 text-center text-sm text-muted-foreground border border-slate-300 rounded-lg">
                   Aucun diplôme ajouté pour le moment
                 </div>
               ) : (
@@ -299,7 +299,7 @@ export default function DiplomaForm() {
                   {addDiplomas.map((d, index) => (
                     <div
                       key={index}
-                      className="relative rounded-lg border border-border bg-background p-4 shadow-sm"
+                      className="relative rounded-lg border border-slate-300 bg-background p-4 shadow-sm"
                     >
                       <Button
                         type="button"
@@ -314,7 +314,7 @@ export default function DiplomaForm() {
                         ×
                       </Button>
 
-                      <div className="space-y-2 pr-8">
+                      <div className="space-y-2 pr-8 border-slate-300">
                         <div>
                           <span className="text-xs font-semibold text-muted-foreground">
                             Diplôme:

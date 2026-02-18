@@ -295,7 +295,7 @@ export default function ExperienceForm() {
   return (
     <Form {...form}>
       <form className="w-full px-4 md:px-6 md:p-6">
-        <div className="w-full max-w-2xl mx-auto rounded-lg border bg-background p-6 shadow-sm mt-6 min-w-0 overflow-hidden">
+        <div className="w-full max-w-2xl mx-auto rounded-lg border bg-background p-6 shadow-sm mt-6 min-w-0 overflow-hidden border-black/40 divide-y divide-black/30 bg-white">
           <h3 className="text-lg font-semibold text-foreground">Experience</h3>
 
           {/* FIELDS */}
@@ -312,7 +312,7 @@ export default function ExperienceForm() {
                     <select
                       value={field.value}
                       onChange={field.onChange}
-                      className="block h-10 w-full max-w-full min-w-0 rounded-md border bg-background px-3 py-2 text-sm shadow-sm outline-none transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                      className="block h-10 w-full max-w-full min-w-0 rounded-md border bg-background px-3 py-2 text-sm shadow-sm outline-none transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border-black/40 divide-y divide-black/30 bg-white"
                     >
                       <option value="">
                         {domainsLoading ? "Chargement..." : "--Choisir--"}
@@ -342,7 +342,7 @@ export default function ExperienceForm() {
                     <select
                       value={field.value}
                       onChange={field.onChange}
-                      className="block h-10 w-full max-w-full min-w-0 rounded-md border bg-background px-3 py-2 text-sm shadow-sm outline-none transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                      className="block h-10 w-full max-w-full min-w-0 rounded-md border bg-background px-3 py-2 text-sm shadow-sm outline-none transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border-black/40 divide-y divide-black/30 bg-white"
                       disabled={!selectedDomainId || activitiesLoading}
                     >
                       <option value="">
@@ -373,7 +373,7 @@ export default function ExperienceForm() {
                     <select
                       value={field.value}
                       onChange={field.onChange}
-                      className="block h-10 w-full max-w-full min-w-0 rounded-md border bg-background px-3 py-2 text-sm shadow-sm outline-none transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                      className="block h-10 w-full max-w-full min-w-0 rounded-md border bg-background px-3 py-2 text-sm shadow-sm outline-none transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border-black/40 divide-y divide-black/30 bg-white"
                     >
                       <option value="">
                         {typeOfStructureLoading
@@ -407,7 +407,7 @@ export default function ExperienceForm() {
                         {...field}
                         list="structures-list"
                         placeholder="Saisir ou choisir une structure"
-                        className="block h-10 w-full max-w-full min-w-0 rounded-md border bg-background px-3 py-2 text-sm shadow-sm outline-none transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                        className="block h-10 w-full max-w-full min-w-0 rounded-md border bg-background px-3 py-2 text-sm shadow-sm outline-none transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border-black/40 divide-y divide-black/30 bg-white"
                       />
                       <datalist id="structures-list">
                         {nameOfStructure.map((s) => (
@@ -430,7 +430,7 @@ export default function ExperienceForm() {
                     Date de début
                   </FormLabel>
                   <FormControl>
-                    <Input type="date" {...field} className="block h-10 w-full max-w-full min-w-0" />
+                    <Input type="date" {...field} className="block h-10 w-full max-w-full min-w-0 border-black/40 divide-y divide-black/30 bg-white" />
                   </FormControl>
                   <FormMessage className="text-xs" />
                 </FormItem>
@@ -446,7 +446,7 @@ export default function ExperienceForm() {
                     Date de fin
                   </FormLabel>
                   <FormControl>
-                    <Input type="date" {...field} className="block h-10 w-full max-w-full min-w-0" />
+                    <Input type="date" {...field} className="block h-10 w-full max-w-full min-w-0 border-black/40 divide-y divide-black/30 bg-white" />
                   </FormControl>
                   <FormMessage className="text-xs" />
                 </FormItem>
@@ -458,14 +458,14 @@ export default function ExperienceForm() {
               <Button
                 type="button"
                 onClick={form.handleSubmit(addSubmit)}
-                className="w-fit px-8 bg-blue-600 hover:bg-blue-700 text-white"
+                className="w-fit bg-black ml-2 hover:bg-amber-700 hover:scale-[1.08] hover:text-black transition-all duration-150 cursor-pointer border-black/40 divide-y divide-black/30"
               >
                 Ajouter
               </Button>
 
               <Button
                 type="button"
-                className="w-fit px-10 bg-green-600 hover:bg-green-700 text-white"
+                className="w-fit bg-black ml-2 hover:bg-green-300 hover:scale-[1.08] hover:text-black transition-all duration-150 cursor-pointer border-black/40 divide-y divide-black/30"
                 onClick={saveAlleExperiences}
               >
                 Enregistrer
@@ -473,34 +473,34 @@ export default function ExperienceForm() {
             </div>
 
             {/* DESKTOP TABLE */}
-            <div className="mt-6 rounded-lg border border-border overflow-hidden hidden md:block">
+            <div className="mt-6 rounded-lg border border-slate-500 overflow-hidden hidden md:block">
               <div className="px-4 py-3 text-sm text-muted-foreground border-b border-border">
                 Ajouter vos expériences et retrouvez-les ci-dessous
               </div>
 
-              <div className="max-h-64 overflow-y-auto overflow-x-auto">
-                <Table className="w-full table-fixed">
-                  <TableHeader>
-                    <TableRow className="bg-muted/60">
-                      <TableHead className="w-max border-r font-semibold text-center truncate whitespace-nowrap">
+              <div className="max-h-64 overflow-y-auto overflow-x-auto ">
+                <Table className="w-full table-fixed ">
+                  <TableHeader className="bg-teal-100">
+                    <TableRow className="border-slate-500">
+                      <TableHead className="w-max border font-semibold text-center truncate whitespace-nowrap border-slate-500">
                         Domain général
                       </TableHead>
-                      <TableHead className="w-max border-r font-semibold text-center truncate whitespace-nowrap">
+                      <TableHead className="w-max border border-slate-500 font-semibold text-center truncate whitespace-nowrap">
                         Nature de l'activité
                       </TableHead>
-                      <TableHead className="w-max border-r font-semibold text-center truncate whitespace-nowrap">
+                      <TableHead className="w-max border border-slate-500 font-semibold text-center truncate whitespace-nowrap">
                         Type de structure
                       </TableHead>
-                      <TableHead className="w-max border-r font-semibold text-center truncate whitespace-nowrap">
+                      <TableHead className="w-max border border-slate-500 font-semibold text-center truncate whitespace-nowrap">
                         Nom de structure
                       </TableHead>
-                      <TableHead className="w-max border-r text-center font-semibold truncate whitespace-nowrap">
+                      <TableHead className="w-max border border-slate-500 text-center font-semibold truncate whitespace-nowrap">
                         Date de début
                       </TableHead>
-                      <TableHead className="w-max border-r text-center font-semibold truncate whitespace-nowrap">
+                      <TableHead className="w-max border border-slate-500 text-center font-semibold truncate whitespace-nowrap">
                         Date de fin
                       </TableHead>
-                      <TableHead className="w-10 text-center font-semibold truncate whitespace-nowrap">
+                      <TableHead className="w-10 border border-slate-500 text-center font-semibold truncate whitespace-nowrap">
                         x
                       </TableHead>
                     </TableRow>
@@ -511,7 +511,7 @@ export default function ExperienceForm() {
                       <TableRow>
                         <TableCell
                           colSpan={5}
-                          className="py-6 text-center text-sm text-muted-foreground"
+                          className="py-6 text-center text-sm text-muted-foreground "
                         >
                           Aucune expérience ajoutée pour le moment
                         </TableCell>
@@ -520,32 +520,32 @@ export default function ExperienceForm() {
                       diplomas.map((d, index) => (
                         <TableRow
                           key={index}
-                          className="hover:bg-muted/40 transition-colors"
+                          className="transition-colors hover:!bg-lime-200 hover:!scale-[1.01]"
                         >
-                          <TableCell className="border-r text-center truncate whitespace-nowrap">
+                          <TableCell className="border text-center truncate whitespace-nowrap border-black/30">
                             {d.domainName}
                           </TableCell>
-                          <TableCell className="border-r text-center truncate whitespace-nowrap">
+                          <TableCell className="border border-black/30 text-center truncate whitespace-nowrap">
                             {d.activityName}
                           </TableCell>
-                          <TableCell className="border-r text-center truncate whitespace-nowrap">
+                          <TableCell className="border border-black/30 text-center truncate whitespace-nowrap">
                             {d.typeName}
                           </TableCell>
-                          <TableCell className="border-r text-center truncate whitespace-nowrap">
+                          <TableCell className="border border-black/30 text-center truncate whitespace-nowrap">
                             {d.structureName}
                           </TableCell>
-                          <TableCell className="border-r text-center truncate whitespace-nowrap">
+                          <TableCell className="border border-black/30 text-center truncate whitespace-nowrap">
                             {d.startDate}
                           </TableCell>
-                          <TableCell className="border-r text-center truncate whitespace-nowrap">
+                          <TableCell className="border border-black/30 text-center truncate whitespace-nowrap">
                             {d.endDate}
                           </TableCell>
-                          <TableCell className="border-r p-0">
+                          <TableCell className="border border-black/30 p-0">
   <div className="flex items-center justify-center h-full py-1">
                             <Button
                               type="button"
                               variant="ghost"
-                              className="h-8 w-8 p-0  text-destructive hover:bg-destructive/10"
+                              className="h-8 w-8 p-0  text-destructive hover:bg-destructive/30"
                               onClick={() =>
                                 setDiplomas((prev) =>
                                   prev.filter((_, i) => i !== index),

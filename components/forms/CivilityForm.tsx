@@ -123,7 +123,7 @@ export default function CivilityForm() {
         className="w-full mt-6  px-4 md:px-6 md:p-6"
       >
         {/* CARD */}
-        <div className="w-full max-w-2xl mx-auto rounded-lg border bg-background p-6 shadow-sm ">
+        <div className="w-full max-w-2xl mx-auto rounded-lg border bg-background p-6 shadow-sm border-black/40 divide-y divide-black/30 bg-white">
           <h3 className="text-lg font-semibold text-foreground">Civility</h3>
 
           <fieldset className="mt-6 space-y-5">
@@ -131,12 +131,12 @@ export default function CivilityForm() {
               control={form.control}
               name="firstName"
               render={({ field }) => (
-                <FormItem className="space-y-2">
+                <FormItem className="space-y-2 ">
                   <FormLabel className="text-sm font-semibold">
                     Prénom
                   </FormLabel>
                   <FormControl>
-                    <Input {...field} className="h-10 w-full" />
+                    <Input {...field} className="h-10 w-full border-black/40 divide-y divide-black/30 bg-white" />
                   </FormControl>
                   <FormMessage className="text-xs" />
                 </FormItem>
@@ -150,7 +150,7 @@ export default function CivilityForm() {
                 <FormItem className="space-y-2">
                   <FormLabel className="text-sm font-semibold">Nom</FormLabel>
                   <FormControl>
-                    <Input {...field} className="h-10 w-full" />
+                    <Input {...field} className="h-10 w-full border-black/40 divide-y divide-black/30 bg-white" />
                   </FormControl>
                   <FormMessage className="text-xs" />
                 </FormItem>
@@ -166,7 +166,7 @@ export default function CivilityForm() {
                     Date de naissance
                   </FormLabel>
                   <FormControl>
-                    <Input {...field} className="h-10 w-full" type="date" />
+                    <Input {...field} className="h-10 w-full border-black/40 divide-y divide-black/30 bg-white" type="date" />
                   </FormControl>
                   <FormMessage className="text-xs" />
                 </FormItem>
@@ -184,7 +184,7 @@ export default function CivilityForm() {
                   <FormControl>
                     <Input
                       {...field}
-                      className="h-10 w-full"
+                      className="h-10 w-full border-black/40 divide-y divide-black/30 bg-white"
                       placeholder="06..."
                     />
                   </FormControl>
@@ -202,7 +202,7 @@ export default function CivilityForm() {
                   <FormControl>
                     <Input
                       {...field}
-                      className="h-10 w-full"
+                      className="h-10 w-full border-black/40 divide-y divide-black/30 bg-white"
                       placeholder="ex: nom@email.com"
                     />
                   </FormControl>
@@ -220,12 +220,12 @@ export default function CivilityForm() {
                   <FormLabel className="text-sm font-semibold">Photo</FormLabel>
                   <FormControl>
                     {/* контейнер фиксирует внешний вид file input */}
-                    <div className="w-full rounded-md border bg-background px-3 py-2 shadow-sm">
+                    <div className="w-full rounded-md border bg-background px-3 py-2 shadow-sm border-black/40 divide-y divide-black/30 bg-white">
                       <Input
                         type="file"
                         accept="image/jpeg,image/png,image/webp"
                         onChange={(e) => field.onChange(e.target.files?.[0])}
-                        className="h-10 w-full border-0 p-0 shadow-none focus-visible:ring-0"
+                        className="h-10 w-full border-0 p-0 shadow-none focus-visible:ring-0 border-black/40 divide-y divide-black/30 bg-white"
                       />
                     </div>
                   </FormControl>
@@ -247,7 +247,7 @@ export default function CivilityForm() {
                     <select
                       value={field.value}
                       onChange={field.onChange}
-                      className="h-10 w-full rounded-md border bg-background px-3 py-2 text-sm shadow-sm outline-none transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                      className="h-10 w-full rounded-md border bg-background px-3 py-2 text-sm shadow-sm outline-none transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border-black/40 divide-y divide-black/30 bg-white"
                     >
                       {loadingContracts ? (
                         <option value="" disabled>
@@ -274,7 +274,7 @@ export default function CivilityForm() {
             <div className="pt-2 flex">
               <Button
                 type="submit"
-                className="w-fit px-10 bg-green-600 hover:bg-green-700 text-white"
+                 className="w-fit bg-black ml-2 hover:bg-green-300 hover:scale-[1.08] hover:text-black transition-all duration-150 cursor-pointer border-black/40 divide-y divide-black/30 "
               >
                 Enregistrer
               </Button>

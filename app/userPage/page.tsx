@@ -55,9 +55,9 @@ export default function UserPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#ffe0ae]">
       {/* TOP BAR */}
-      <header className="h-14 w-full border-b-2 bg-white flex items-center justify-between px-4">
+      <header  className="h-14 w-full bg-[#d7ac67] border-b border-[#eadfce] shadow-sm flex items-center justify-between px-4">
         <div className="text-lg font-semibold">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -123,14 +123,12 @@ export default function UserPage() {
         </div>
 
         <div className="flex items-center gap-4 text-sm">
-          <span className="text-muted-foreground">{user?.name}</span>
+          <span className="text-black">{user?.name}</span>
           <button
             type="button"
             onClick={handlLogout}
-            className="underline text-muted-foreground transition-transform  hover:scale-150 
-hover:bg-red-200
-hover:shadow-[0_0_40px_15px_rgba(220,38,38,0.7)]
-transition-all duration-300"
+            className="underline text-muted-foreground transition-transform  hover:scale-150
+  hover:shadow-[0_0_40px_15px_rgba(215,172,103,0.25),0_0_40px_15px_rgba(220,38,38,0.7)]"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -154,7 +152,7 @@ transition-all duration-300"
 
       <div className="flex">
         {/* LEFT SIDEBAR */}
-        <aside className="w-64 border-r-2 bg-white p-4">
+        <aside  className="w-64 bg-[#d7ac67] border-r border-[#eadfce] p-4">
           <nav className="space-y-2">
             {/* user: только Mon profile */}
             {user?.role === "user" && (
@@ -162,9 +160,9 @@ transition-all duration-300"
                 onClick={() => setActive("profile")}
                  className="w-full text-left rounded-md px-3 py-2 text-sm transition-all duration-150
 
-hover:bg-sky-100
+hover:bg-amber-600
 hover:scale-[1.02]
-hover:text-sky-700
+hover:text-white
 cursor-pointer"
               >
                 Mon profile
@@ -179,8 +177,8 @@ cursor-pointer"
         </aside>
 
         {/* MAIN CONTENT */}
-        <main className="flex-1  p-5 overflow-hidden">
-          <div className=" w-full rounded-2xl border bg-muted/30 p-4 overflow-auto">
+        <main className="flex-1 p-6 overflow-hidden bg-[#ffe5bb]">
+           <div className="w-full rounded-2xl border-1 border-[#eadfce] bg-[#fffdf8] p-6 shadow-[0_10px_30px_rgba(0,0,0,0.12),0_0_60px_rgba(15,23,42,0.18)] overflow-auto">
             {views[active]}
           </div>
         </main>

@@ -1,10 +1,10 @@
 "use client";
-import { CandidateSearch } from "@/components/forms/CandidateSearch";
+import DiplomaForm from "@/components/forms/DiplomaForm";
 
 export default function TestPage() {
   return (
     <div>
-      <CandidateSearch />
+      <DiplomaForm/>
     </div>
   );
 }

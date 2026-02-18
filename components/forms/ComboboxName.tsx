@@ -46,6 +46,7 @@ export function FirstNameMultiple({ value, onChange }: Props) {
   }, []);
 
   return (
+    
     <Combobox items={name} multiple value={value} onValueChange={onChange}>
       <ComboboxChips>
         <ComboboxValue>
@@ -53,7 +54,10 @@ export function FirstNameMultiple({ value, onChange }: Props) {
             <ComboboxChip key={item}>{item}</ComboboxChip>
           ))}
         </ComboboxValue>
-        <ComboboxChipsInput placeholder="Prénom" />
+        
+          <ComboboxChipsInput placeholder="Prénom" />
+        
+        
       </ComboboxChips>
       <ComboboxContent>
         <ComboboxEmpty>No items found.</ComboboxEmpty>
@@ -66,5 +70,7 @@ export function FirstNameMultiple({ value, onChange }: Props) {
         </ComboboxList>
       </ComboboxContent>
     </Combobox>
+ 
   );
+
 }

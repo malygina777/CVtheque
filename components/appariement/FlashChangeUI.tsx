@@ -141,7 +141,7 @@ export default function FlashChangeUI({
 
   return (
     <div className="min-h-screen overflow-x-hidden flex items-start justify-center p-4 ">
-      <Card className="w-full max-w-6xl p-4 sm:p-6 overflow-hidden">
+      <Card className="w-full max-w-6xl border-1 p-4 sm:p-6 overflow-hidden shadow-[0_0_30px_rgba(15,23,42,0.12)] border-black/40 divide-y divide-black/30 bg-white">
         {/* Header */}
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
@@ -160,9 +160,9 @@ export default function FlashChangeUI({
         </div>
 
         {/* Layout: 1 colonne mobile / 3 colonnes lg */}
-        <div className="mt-4 grid gap-4 min-w-0 lg:grid-cols-[280px_minmax(0,1fr)_minmax(0,1fr)]">
+        <div className="mt-4 grid gap-4 min-w-0 lg:grid-cols-[280px_minmax(0,1fr)_minmax(0,1fr)] border-black/40 divide-y divide-black/30 bg-white">
           {/* LEFT */}
-          <div className="rounded-xl border min-w-0 overflow-hidden">
+          <div className="rounded-xl border min-w-0 overflow-hidden border-black/40 divide-y divide-black/30 bg-white">
             <div className="border-b px-4 py-3">
               <p className="text-sm font-semibold">General domains</p>
               <p className="text-xs text-muted-foreground">
@@ -170,7 +170,7 @@ export default function FlashChangeUI({
               </p>
             </div>
 
-            <ul className="max-h-[320px] overflow-y-auto overflow-x-hidden p-2">
+            <ul className="max-h-[320px] overflow-y-auto overflow-x-hidden p-2 border-black/40 divide-y divide-black/30 bg-white">
               {domains.map((d) => (
                 <li key={d.id}>
                   <button
@@ -201,7 +201,7 @@ export default function FlashChangeUI({
           </div>
 
           {/* CENTER */}
-          <div className="rounded-xl border min-w-0 overflow-hidden">
+          <div className="rounded-xl border min-w-0 overflow-hidden border-black/40 divide-y divide-black/30 bg-white">
             <div className="border-b px-4 py-3 flex items-center justify-between gap-2 min-w-0">
               <div className="min-w-0">
                 <p className="text-sm font-semibold">Liés au domaine</p>
@@ -214,14 +214,14 @@ export default function FlashChangeUI({
 
               {/* стрелки только на lg */}
               {activeDomainId && (
-                <div className="hidden lg:flex gap-2 shrink-0">
+                <div className="hidden lg:flex gap-2 shrink-0 ">
                   <Button
                     type="button"
                     variant="outline"
                     onClick={removeFromCenter}
                     disabled={checkedCenter.length === 0}
                     title="Retirer du domaine"
-                    className="hover:!bg-lime-200 hover:!scale-[1.04]"
+                    className="hover:!bg-lime-200 hover:!scale-[1.04] border-black/40 divide-y divide-black/30 bg-white"
                   >
                     &gt;
                   </Button>
@@ -230,7 +230,7 @@ export default function FlashChangeUI({
                     onClick={addToCenter}
                     disabled={checkedRight.length === 0}
                     title="Ajouter au domaine"
-                    className="hover:!bg-lime-200 hover:!scale-[1.04]"
+                    className="hover:!bg-lime-200 hover:!scale-[1.04] "
                   >
                     &lt;
                   </Button>
@@ -238,8 +238,8 @@ export default function FlashChangeUI({
               )}
             </div>
 
-            <div className="p-3 min-w-0">
-              <div className="h-64 overflow-y-auto overflow-x-hidden rounded-lg border p-2 min-w-0">
+            <div className="p-3 min-w-0 ">
+              <div className="h-64 overflow-y-auto overflow-x-hidden rounded-lg border p-2 min-w-0 border-black/40 divide-y divide-black/30 bg-white">
                 {activeDomainId && center.length === 0 && (
                   <p className="p-3 text-sm text-muted-foreground text-center">
                     Aucun type lié
@@ -274,7 +274,7 @@ export default function FlashChangeUI({
 
               {/* стрелки на мобилке */}
               {activeDomainId && (
-                <div className="mt-3 flex gap-2 lg:hidden">
+                <div className="mt-3 flex gap-2 lg:hidden border-black/40 divide-y divide-black/30 bg-white">
                   <Button
                     className="flex-1 hover:!bg-lime-200 hover:!scale-[1.04]"
                     variant="outline"
@@ -297,14 +297,14 @@ export default function FlashChangeUI({
           </div>
 
           {/* RIGHT */}
-          <div className="rounded-xl border min-w-0 overflow-hidden">
-            <div className="border-b px-4 py-3">
+          <div className="rounded-xl border min-w-0 overflow-hidden border-black/40 divide-y divide-black/30 bg-white">
+            <div className="border-b px-4 py-3 ">
               <p className="text-sm font-semibold">Disponibles</p>
               <p className="text-xs text-muted-foreground">Pas encore liés</p>
             </div>
 
-            <div className="p-3 min-w-0">
-              <div className="h-64 overflow-y-auto overflow-x-hidden rounded-lg border p-2 min-w-0">
+            <div className="p-3 min-w-0 ">
+              <div className="h-64 overflow-y-auto overflow-x-hidden rounded-lg border p-2 min-w-0 border-black/40 divide-y divide-black/30 bg-white">
                 <ul className="space-y-1 min-w-0">
                   {right.map((st) => (
                     <li key={st.id} className="min-w-0">

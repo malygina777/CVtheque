@@ -78,7 +78,7 @@ export default function UploadingDocuments() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full mt-6 px-4 md:px-6 md:p-6"
       >
-        <div className="w-full max-w-2xl mx-auto rounded-lg border bg-background p-6 shadow-sm">
+        <div className="w-full max-w-2xl mx-auto rounded-lg border bg-background p-6 shadow-sm border-black/40 divide-y divide-black/30 bg-white">
           <h3 className="text-lg font-semibold text-foreground">
             Téléchargement de fichiers
           </h3>
@@ -92,12 +92,12 @@ export default function UploadingDocuments() {
                 <FormItem className="space-y-2">
                   <FormLabel className="text-sm font-semibold">CV</FormLabel>
                   <FormControl>
-                    <div className="w-full rounded-md border bg-background px-3 py-2 shadow-sm">
+                    <div className="w-full rounded-md border bg-background px-3 py-2 shadow-sm border-black/40 divide-y divide-black/30 bg-white">
                       <Input
                         type="file"
                         accept=".pdf,.doc,.docx"
                         onChange={(e) => field.onChange(e.target.files?.[0])}
-                        className="h-10 w-full border-0 p-0 shadow-none focus-visible:ring-0"
+                        className="h-10 w-full border-0 p-0 shadow-none focus-visible:ring-0 "
                       />
                     </div>
                   </FormControl>
@@ -116,12 +116,12 @@ export default function UploadingDocuments() {
                     Lettre de motivation
                   </FormLabel>
                   <FormControl>
-                    <div className="w-full rounded-md border bg-background px-3 py-2 shadow-sm">
+                    <div className="w-full rounded-md border bg-background px-3 py-2 shadow-sm border-black/40 divide-y divide-black/30 bg-white">
                       <Input
                         type="file"
                         accept=".pdf,.doc,.docx"
                         onChange={(e) => field.onChange(e.target.files?.[0])}
-                        className="h-10 w-full border-0 p-0 shadow-none focus-visible:ring-0"
+                        className="h-10 w-full border-0 p-0 shadow-none focus-visible:ring-0 "
                       />
                     </div>
                   </FormControl>
@@ -133,7 +133,7 @@ export default function UploadingDocuments() {
             <div className="pt-2 flex">
               <Button
                 type="submit"
-                className="w-fit px-10 bg-green-600 hover:bg-green-700 text-white"
+                className="w-fit px-10bg-black ml-2 hover:bg-green-300 hover:scale-[1.08] hover:text-black transition-all duration-150 cursor-pointer border-black/40 divide-y divide-black/30"
               >
                 Enregistrer
               </Button>

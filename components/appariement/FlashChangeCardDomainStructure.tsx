@@ -3,7 +3,7 @@ import FlashChangeUI from "./FlashChangeUI";
 
 export default function FlashChangeCardStructure() {
   return (
-    <div>
+    <div >
       <FlashChangeUI
         domainsUrl="/api/general-domains-structure"
         structureTypesUrl="/api/structure-types"

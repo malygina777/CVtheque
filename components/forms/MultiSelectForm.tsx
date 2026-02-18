@@ -67,9 +67,9 @@ export default function MultiSelectForm() {
 
   return (
     <form onSubmit={saveOptionsExpertise}>
-      <div className="w-full mb-6 px-4 md:px-6 md:p-6">
-        <div className="w-full max-w-2xl mx-auto rounded-lg border bg-background p-6 shadow-sm mt-6">
-          <h3 className="text-lg font-semibold text-foreground mb-3">
+      <div className="w-full mb-6 px-4 md:px-6 md:p-6 ">
+        <div className="w-full max-w-2xl mx-auto rounded-lg border bg-background p-6 shadow-sm mt-6 border-black/40">
+          <h3 className="text-lg font-semibold text-foreground mb-3 ">
             Expertise d&apos;intervention
           </h3>
 
@@ -82,7 +82,7 @@ export default function MultiSelectForm() {
           [&_*]:max-w-full
         "
           >
-            <div className="[&_*]:flex-wrap">
+            <div className="[&_*]:flex-wrap border-black/40 divide-y divide-black/30 bg-white">
               <MultiSelect
                 key={resetKey}
                 options={options}
@@ -93,7 +93,7 @@ export default function MultiSelectForm() {
               />
               <Button
                 type="submit"
-                className="w-fit px-10 bg-green-600 hover:bg-green-700 text-white mt-7"
+                className="w-fit px-10 bg-black ml-2 hover:bg-green-300 hover:scale-[1.08] hover:text-black transition-all duration-150 cursor-pointer border-black/40 divide-y divide-black/30 mt-7"
               >
                 Enregistrer
               </Button>
