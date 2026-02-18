@@ -1,11 +1,14 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { getRole } from "@/lib/getRole/getRole";
+import { headers } from "next/headers";
 
-export default async function RedirectPage() {
-  const session = await auth.api.getSession({
-    headers: await import("next/headers").then((mod) => mod.headers()),
-  });
+export default async function RedirectPage({
+  searchParams,
+}: {
+  searchParams: { next?: string };
+}) {
+  const session = await auth.api.getSession({ headers: await headers() });
 
   if (!session?.user?.id) {
     redirect("/connexion");
@@ -13,13 +16,19 @@ export default async function RedirectPage() {
 
   const role = await getRole(session.user.id);
 
-  if (role?.role === "user") {
-    redirect("/userPage");
+  // если роли нет — на регистрацию
+  if (!role?.role) {
+    redirect("/register");
   }
 
-  if (role?.role === "admin" || role?.role === "teacher") {
-    redirect("/adminTeacherPage");
+  // если middleware прислал next — уважаем его
+  const next = searchParams.next;
+
+  if (next) {
+    redirect(`${next}?from=redirect`);
   }
 
-  redirect("/register");
+  // иначе по роли
+  if (role.role === "user") redirect("/userPage?from=redirect");
+  redirect("/adminTeacherPage?from=redirect");
 }
