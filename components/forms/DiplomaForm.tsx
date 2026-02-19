@@ -81,7 +81,7 @@ export default function DiplomaForm() {
   }, []);
 
   function addDiploma(values: FormValues) {
-    
+
     const label =
       diplomaOptions.find((x) => String(x.id) === values.diploma)?.intitule ??
       "";
@@ -202,7 +202,7 @@ export default function DiplomaForm() {
                 Ajouter
               </Button>
 
-              
+
             </div>
 
             {success !== null && (
@@ -283,12 +283,12 @@ export default function DiplomaForm() {
             </div>
 
             <Button
-                type="button"
-                className="w-fit bg-black ml-2 hover:bg-[#9cbe3f] hover:scale-[1.08] hover:text-black transition-all duration-150 cursor-pointer border-black/40 divide-y divide-black/30"
-                onClick={saveAll}
-              >
-                Enregistrer
-              </Button>
+              type="button"
+              className="w-fit bg-black ml-2 hover:bg-[#9cbe3f] hover:scale-[1.08] hover:text-black transition-all duration-150 cursor-pointer border-black/40 divide-y divide-black/30"
+              onClick={saveAll}
+            >
+              Enregistrer
+            </Button>
 
             {/* MOBILE CARDS */}
             <div className="mt-6 md:hidden space-y-3 border-black/40 divide-y divide-black/30 bg-white">

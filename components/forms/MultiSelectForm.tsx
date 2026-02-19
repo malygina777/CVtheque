@@ -99,7 +99,7 @@ export default function MultiSelectForm() {
               </Button>
 
               {status !== null && (
-                <div className={status ? "text-green-600" : "text-red-600"}>
+                <div className={status ? "text-green-600 pt-5" : "text-red-600 pt-5"}>
                   {status
                     ? "Le formulaire a été envoyée avec succès"
                     : "Une erreur est survenue. Le formulaire ne a pas été envoyée"}

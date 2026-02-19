@@ -107,6 +107,7 @@ export default function ExperienceForm() {
   const [typeOfStructureLoading, setTypeOfStructureLoading] = useState(true);
   const [nameOfStructure, setNameOfStructure] = useState<NameOfStructure[]>([]);
   const [NameOfStructureLoading, setNameOfStructureLoading] = useState(true);
+  const [success, setSuccess] = useState<boolean | null>(null);
   const selectedDomainId = form.watch("domain");
 
   useEffect(() => {
@@ -265,6 +266,7 @@ export default function ExperienceForm() {
 
   async function saveAlleExperiences() {
     if (diplomas.length === 0) return;
+    setSuccess(null);
 
     try {
       const payload = diplomas.map((d) => ({
@@ -283,11 +285,13 @@ export default function ExperienceForm() {
       });
 
       if (!res.ok) {
+        setSuccess(false);
         throw new Error("Erreur serveur");
       }
-
+      setSuccess(true);
       setDiplomas([]);
     } catch (e) {
+      setSuccess(false);
       console.log(e);
     }
   }
@@ -462,9 +466,15 @@ export default function ExperienceForm() {
               >
                 Ajouter
               </Button>
-
-              
             </div>
+
+            {success !== null && (
+              <div className={success ? "text-green-600" : "text-red-600"}>
+                {success
+                  ? "Le formulaire a été envoyé avec succès"
+                  : "Use erreur est survenue. Le formulaire ne a pas été envoyé "}
+              </div>
+            )}
 
             {/* DESKTOP TABLE */}
             <div className="mt-6 rounded-lg border border-slate-500 overflow-hidden hidden md:block">
