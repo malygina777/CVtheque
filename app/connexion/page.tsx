@@ -99,7 +99,7 @@ export default function ConnexionPage() {
                 )}
 
                 <div className="flex-col gap-2">
-                  <Button  variant="outline" type="submit" className="w-full text-white border-black/50 divide-y divide-black/30 bg-black hover:scale-[1.03] hover:text-amber-900 hover:bg-amber-100
+                  <Button  variant="outline" type="submit" className="w-full text-white border-black/50 divide-y divide-black/30 bg-black hover:scale-[1.03] hover:text-white-900 hover:bg-[#e0843f]
 cursor-pointer" disabled={loading}>
                     {loading ? "Connexion..." : "Login"}
                   </Button>
@@ -107,9 +107,9 @@ cursor-pointer" disabled={loading}>
                     variant="outline"
                     className="w-full mt-2 text-white transition-all duration-150 border-black/40 divide-y divide-black/30 bg-black
 
-hover:bg-amber-100
+hover:bg-[#e0843f]
 hover:scale-[1.02]
-hover:text-amber-900
+hover:text-white-900
 cursor-pointer"
                     type="button"
                     onClick={async () =>
@@ -122,9 +122,9 @@ cursor-pointer"
                     variant="outline"
                     className="w-full mt-2 text-white transition-all duration-150 border-black/40 divide-y divide-black/30 bg-black
 
-hover:bg-amber-100
+hover:bg-[#e0843f]
 hover:scale-[1.02]
-hover:text-amber-900
+hover:text-white-900
 cursor-pointer"
                     type="button"
                     onClick={async () =>

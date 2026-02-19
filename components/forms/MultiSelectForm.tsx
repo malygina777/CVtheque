@@ -93,7 +93,7 @@ export default function MultiSelectForm() {
               />
               <Button
                 type="submit"
-                className="w-fit px-10 bg-black ml-2 hover:bg-green-300 hover:scale-[1.08] hover:text-black transition-all duration-150 cursor-pointer border-black/40 divide-y divide-black/30 mt-7"
+                className="w-fit px-10 bg-black ml-2 hover:bg-[#9cbe3f] hover:scale-[1.08] hover:text-black transition-all duration-150 cursor-pointer border-black/40 divide-y divide-black/30 mt-7"
               >
                 Enregistrer
               </Button>

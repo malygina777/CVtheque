@@ -65,9 +65,9 @@ export default function ResetPasswordPage() {
 
           <Button variant="outline" type="submit" className="w-full mt-2 text-white transition-all duration-150 border-black/40 divide-y divide-black/30 bg-black
 
-hover:bg-amber-100
+hover:bg-[#e0843f]
 hover:scale-[1.02]
-hover:text-amber-900
+hover:text-white-900
 cursor-pointer" disabled={loading}>
             {loading ? "Changement..." : "Changer"}
           </Button>

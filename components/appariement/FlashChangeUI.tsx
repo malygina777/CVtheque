@@ -153,7 +153,7 @@ export default function FlashChangeUI({
           <Button
             onClick={save}
             disabled={!activeDomainId}
-            className="hover:!bg-green-300 hover:!scale-[1.04] hover:!text-black transition-all duration-150 cursor-pointer"
+            className="hover:bg-[#9cbe3f]  hover:!scale-[1.04] hover:!text-black transition-all duration-150 cursor-pointer"
           >
             Enregistrer
           </Button>

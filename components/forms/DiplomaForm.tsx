@@ -197,18 +197,12 @@ export default function DiplomaForm() {
               <Button
                 type="button"
                 onClick={form.handleSubmit(addDiploma)}
-                className="w-fit bg-black ml-2 hover:bg-amber-700 hover:scale-[1.08] hover:text-black transition-all duration-150 cursor-pointer border-black/40 divide-y divide-black/30"
+                className="w-fit bg-black ml-2 hover:bg-[#e0c23e] hover:scale-[1.08] hover:text-black transition-all duration-150 cursor-pointer border-black/40 divide-y divide-black/30"
               >
                 Ajouter
               </Button>
 
-              <Button
-                type="button"
-                className="w-fit bg-black ml-2 hover:bg-green-300 hover:scale-[1.08] hover:text-black transition-all duration-150 cursor-pointer border-black/40 divide-y divide-black/30"
-                onClick={saveAll}
-              >
-                Enregistrer
-              </Button>
+              
             </div>
 
             {success !== null && (
@@ -227,8 +221,8 @@ export default function DiplomaForm() {
 
               <div className="max-h-64 overflow-y-auto overflow-x-auto ">
                 <Table className="w-full table-fixed ">
-                  <TableHeader className="border-t border-black/30  ">
-                    <TableRow className=" border-black/40 bg-teal-100">
+                  <TableHeader className="border-t border-black/30  bg-[#92c7ba]">
+                    <TableRow className=" border-black/40 ">
                       <TableHead className="w-1/1 border-r border-black/30 font-semibold text-center ">
                         Diplôme
                       </TableHead>
@@ -287,6 +281,14 @@ export default function DiplomaForm() {
                 </Table>
               </div>
             </div>
+
+            <Button
+                type="button"
+                className="w-fit bg-black ml-2 hover:bg-[#9cbe3f] hover:scale-[1.08] hover:text-black transition-all duration-150 cursor-pointer border-black/40 divide-y divide-black/30"
+                onClick={saveAll}
+              >
+                Enregistrer
+              </Button>
 
             {/* MOBILE CARDS */}
             <div className="mt-6 md:hidden space-y-3 border-black/40 divide-y divide-black/30 bg-white">

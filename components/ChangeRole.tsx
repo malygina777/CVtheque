@@ -132,7 +132,7 @@ focus:border-amber-700"
 
                           <Button
                             variant="outline"
-                            className="ml-2 hover:bg-green-300 hover:scale-[1.04] transition-all duration-150 cursor-pointer border-black/40 divide-y divide-black/30 bg-white"
+                            className="ml-2 hover:bg-[#9cbe3f]  hover:scale-[1.04] transition-all duration-150 cursor-pointer border-black/40 divide-y divide-black/30 bg-white"
                             onClick={() => saveRole(u.id, u.role)}
                           >
                             Enregistrer

@@ -133,7 +133,7 @@ export default function UploadingDocuments() {
             <div className="pt-2 flex">
               <Button
                 type="submit"
-                className="w-fit px-10bg-black ml-2 hover:bg-green-300 hover:scale-[1.08] hover:text-black transition-all duration-150 cursor-pointer border-black/40 divide-y divide-black/30"
+                className="w-fit px-10bg-black ml-2 hover:bg-[#9cbe3f]  hover:scale-[1.08] hover:text-black transition-all duration-150 cursor-pointer border-black/40 divide-y divide-black/30"
               >
                 Enregistrer
               </Button>
