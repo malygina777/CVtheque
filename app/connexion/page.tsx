@@ -48,8 +48,8 @@ export default function ConnexionPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-      <Card className="w-full max-w-sm">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gray-100">
+      <Card className="w-full max-w-sm border-black/30 divide-y divide-black/30 shadow-[0_12px_24px_rgba(15,23,42,0.18),0_30px_80px_-30px_rgba(15,23,42,0.45)]">
         <CardHeader>
           <CardTitle>Connectez-vous à votre compte</CardTitle>
           <CardDescription>
@@ -73,6 +73,7 @@ export default function ConnexionPage() {
                   placeholder="m@example.com"
                   name="email"
                   required
+                  className="border-black/50 divide-y divide-black/30"
                 />
               </div>
               <div className="grid gap-2">
@@ -91,22 +92,24 @@ export default function ConnexionPage() {
                   required
                   name="password"
                   onChange={() => setErrorPassword(null)}
+                  className="border-black/40 divide-y divide-black/30 bg-white"
                 />
                 {errorPassword && (
                   <p className="text-red-600 text-left">{errorPassword}</p>
                 )}
 
                 <div className="flex-col gap-2">
-                  <Button type="submit" className="w-full hover:scale-[1.02]" disabled={loading}>
+                  <Button  variant="outline" type="submit" className="w-full text-white border-black/50 divide-y divide-black/30 bg-black hover:scale-[1.03] hover:text-amber-900 hover:bg-amber-100
+cursor-pointer" disabled={loading}>
                     {loading ? "Connexion..." : "Login"}
                   </Button>
                   <Button
                     variant="outline"
-                    className="w-full mt-2 transition-all duration-150
+                    className="w-full mt-2 text-white transition-all duration-150 border-black/40 divide-y divide-black/30 bg-black
 
 hover:bg-amber-100
 hover:scale-[1.02]
-hover:text-cyan-700
+hover:text-amber-900
 cursor-pointer"
                     type="button"
                     onClick={async () =>
@@ -117,11 +120,11 @@ cursor-pointer"
                   </Button>
                   <Button
                     variant="outline"
-                    className="w-full mt-2 transition-all duration-150
+                    className="w-full mt-2 text-white transition-all duration-150 border-black/40 divide-y divide-black/30 bg-black
 
 hover:bg-amber-100
 hover:scale-[1.02]
-hover:text-cyan-700
+hover:text-amber-900
 cursor-pointer"
                     type="button"
                     onClick={async () =>

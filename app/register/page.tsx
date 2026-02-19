@@ -88,7 +88,7 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-      <Card className="w-full max-w-sm">
+      <Card className="w-full max-w-sm  border-black/30 shadow-[0_12px_24px_rgba(15,23,42,0.18),0_30px_80px_-30px_rgba(15,23,42,0.45)]">
         <CardHeader>
           <CardTitle>S’enregistrer</CardTitle>
           <CardDescription>
@@ -108,17 +108,18 @@ export default function RegisterPage() {
               <div className="flex flex-col gap-6">
                 <div className="grid gap-2">
                   <Label htmlFor="firstname">Prénom</Label>
-                  <Input id="firstname" name="firstname" required />
+                  <Input className=" border-black/30" id="firstname" name="firstname" required />
                 </div>
 
                 <div className="grid gap-2">
                   <Label htmlFor="lastname">Nom</Label>
-                  <Input id="lastname" name="lastname" required />
+                  <Input className=" border-black/30" id="lastname" name="lastname" required />
                 </div>
 
                 <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
+                  className=" border-black/30"
                     id="email"
                     name="email"
                     type="email"
@@ -130,6 +131,7 @@ export default function RegisterPage() {
                 <div className="grid gap-2">
                   <Label htmlFor="password">Mot de passe</Label>
                   <Input
+                  className=" border-black/30"
                     id="password"
                     name="password"
                     type="password"
@@ -146,6 +148,7 @@ export default function RegisterPage() {
                     Confirmer le mot de passe
                   </Label>
                   <Input
+                  className=" border-black/30"
                     id="confirmPassword"
                     name="confirmPassword"
                     type="password"
@@ -156,7 +159,12 @@ export default function RegisterPage() {
               </div>
 
               <div className="mt-6">
-                <Button type="submit" className="w-full" disabled={loading}>
+                <Button type="submit" variant="outline" className="w-full mt-2 text-white transition-all duration-150 border-black/40 divide-y divide-black/30 bg-black
+
+hover:bg-amber-100
+hover:scale-[1.02]
+hover:text-amber-900
+cursor-pointer" disabled={loading}>
                   {loading ? "Création..." : "Créer un compte"}.
                 </Button>
               </div>
@@ -169,7 +177,12 @@ export default function RegisterPage() {
         </CardContent>
 
         <CardFooter className="flex-col gap-2">
-          <Button asChild variant="outline" className="w-full">
+          <Button asChild variant="outline" className="w-full mt-2 text-white transition-all duration-150 border-black/40 divide-y divide-black/30 bg-black
+
+hover:bg-amber-100
+hover:scale-[1.02]
+hover:text-amber-900
+cursor-pointer">
             <Link href="/connexion">J’ai déjà un compte</Link>
           </Button>
         </CardFooter>
