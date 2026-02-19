@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
 import fs from "fs/promises";
 import path from "path";
+import { logger } from "../logger/logger";
 
 export async function createUser(formData: FormData, userId: string) {
   const firstname = String(formData.get("firstName") ?? "").trim();
@@ -21,8 +22,10 @@ export async function createUser(formData: FormData, userId: string) {
     photoName = photo.name;
   }
 
+  try {
   const user = await prisma.$transaction(async (tx) => {
     // ✅ CREATE если нет профиля, иначе UPDATE
+
     const user = await tx.profile.upsert({
       where: { auth_user_id: userId },
       create: {
@@ -86,6 +89,7 @@ export async function createUser(formData: FormData, userId: string) {
 
     return user;
   });
+  logger.info(`Mise à jour de l'utilisateur`, { table: 'profile', userId: userId })
 
   // ✅ сохраняем файл после транзакции
   if (photo instanceof File && photo.size > 0) {
@@ -104,4 +108,9 @@ export async function createUser(formData: FormData, userId: string) {
   }
 
   return user;
+
+}
+  catch(error) {
+    logger.error(`Mise à jour de l'utilisateur`, { userId: userId, error })
+  }
 }

@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { logger } from "../logger/logger";
 
 export type GeneralDomain = {
   id: number;
@@ -7,8 +8,22 @@ export type GeneralDomain = {
 };
 
 export async function getGeneralDomains(): Promise<GeneralDomain[]> {
-  return prisma.general_domain.findMany({
-    select: { id: true, fullname: true, shortname: true },
-    orderBy: { fullname: "asc" },
-  });
+
+  try {
+    const res = await prisma.general_domain.findMany({
+      select: {
+        id: true,
+        fullname: true,
+        shortname: true
+      },
+      orderBy: {
+        fullname: "asc"
+      },
+    });
+    return res;
+  }
+  catch(error) {
+    logger.error('Recherche liste general_domain', { table: 'general_domain', error })
+    throw error;
+  }
 }
