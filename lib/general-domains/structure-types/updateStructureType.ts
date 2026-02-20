@@ -1,7 +1,9 @@
 import { prisma } from "@/lib/prisma";
+import { logger } from "@/lib/logger/logger";
 
 export async function updateStructureType(domainId: number, ids: number[]) {
-  return prisma.$transaction(async (tx) => {
+  try {
+     return prisma.$transaction(async (tx) => {
     await tx.general_domain_has_structure_type.deleteMany({
       where: { general_domain_id: domainId },
     });
@@ -19,4 +21,9 @@ export async function updateStructureType(domainId: number, ids: number[]) {
 
     return created;
   });
+  } catch (error) {
+    logger.error('Erreur UPDATE general_domain_has_structure_type', { table: 'general_domain_has_structure_type', error });
+       throw error;
+  }
+  
 }

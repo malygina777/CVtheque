@@ -1,7 +1,9 @@
 import { prisma } from "@/lib/prisma";
+import { logger } from "@/lib/logger/logger";
 
 export async function getAllUsersWithRolePrisma() {
-  const users = await prisma.profile.findMany({
+  try {
+    const users = await prisma.profile.findMany({
     select: {
       id: true,
       firstname: true,
@@ -18,4 +20,9 @@ export async function getAllUsersWithRolePrisma() {
     lastname: u.lastname,
     role: u.user?.role,
   }));
+  } catch (error) {
+    logger.error('Erreur SELECT profile', { table: 'profile', error });
+       throw error;
+  }
+ 
 }

@@ -1,9 +1,11 @@
 import { prisma } from "@/lib/prisma";
+import { logger } from "@/lib/logger/logger";
 
 type UpdataRole = { id: number; role: "user" | "teacher" | "admin" };
 
 export async function updateRolePrisma(data: UpdataRole) {
-  const profile = await prisma.profile.findUnique({
+  try {
+    const profile = await prisma.profile.findUnique({
     where: { id: data.id },
     select: { auth_user_id: true },
   });
@@ -16,4 +18,9 @@ export async function updateRolePrisma(data: UpdataRole) {
       data: { role: data.role },
     });
   }
+  } catch (error) {
+    logger.error('Erreur UPDATE user', { table: 'user', error });
+           throw error;
+  }
+  
 }

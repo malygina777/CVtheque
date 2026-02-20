@@ -1,11 +1,13 @@
 import { prisma } from "@/lib/prisma";
 import { ExperienceRow } from "../types/type";
+import { logger } from "@/lib/logger/logger";
 
 export async function saveExperience(
   experiences: ExperienceRow[],
   profileId: number,
 ) {
-  return prisma.$transaction(async (tx) => {
+  try {
+    return prisma.$transaction(async (tx) => {
     for (const e of experiences) {
       let structure = await tx.structure.findFirst({
         where: { fullname: e.structureName },
@@ -33,4 +35,9 @@ export async function saveExperience(
     }
     return { ok: true, count: experiences.length };
   });
+  } catch (error) {
+    logger.error('Insertion user_has_worked', { table: 'user_has_worked', error });
+           throw error;
+  }
+ 
 }

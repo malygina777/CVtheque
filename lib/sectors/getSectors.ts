@@ -1,7 +1,9 @@
 import { prisma } from "../prisma";
+import { logger } from "@/lib/logger/logger";
 
 export async function getSectors() {
-  return await prisma.sectors.findMany({
+  try {
+   return await prisma.sectors.findMany({
     select: {
       id: true,
       fullname: true,
@@ -10,4 +12,9 @@ export async function getSectors() {
       fullname: "asc",
     },
   });
+  } catch (error) {
+    logger.error('Erreur SELECT sectors', { table: 'sectors', error });
+           throw error;
+  }
+  
 }

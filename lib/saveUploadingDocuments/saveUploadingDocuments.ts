@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { logger } from "@/lib/logger/logger";
 
 type Docs = {
   cv: {
@@ -19,7 +20,8 @@ const FILE_TYPE_ID_CV = 3;
 const FILE_TYPE_ID_COVER = 4;
 
 export async function saveUploadingDocuments(data: Docs, profileId: number) {
-  const { cv, cover } = data;
+  try {
+    const { cv, cover } = data;
 
   return prisma.$transaction(async (tx) => {
     await tx.file.create({
@@ -47,4 +49,10 @@ export async function saveUploadingDocuments(data: Docs, profileId: number) {
 }
 
   });
+
+  } catch (error) {
+    logger.error('Erreur CREATE file', { table: 'file', error });
+           throw error;
+  }
+  
 }

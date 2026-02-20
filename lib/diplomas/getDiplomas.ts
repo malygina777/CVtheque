@@ -1,7 +1,9 @@
 import { prisma } from "../prisma";
+import { logger } from "@/lib/logger/logger";
 
 export async function getDiplomas() {
-  return prisma.rncp.findMany({
+  try {
+ return prisma.rncp.findMany({
     select: {
       id: true,
       intitule: true,
@@ -10,4 +12,9 @@ export async function getDiplomas() {
       intitule: "asc",
     },
   });
+  } catch (error) {
+   logger.error('Erreur SELECT rncp', { table: 'rncp', error });
+       throw error;
+  }
+ 
 }

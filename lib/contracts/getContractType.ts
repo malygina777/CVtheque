@@ -1,7 +1,9 @@
 import { prisma } from "../prisma";
+import { logger } from "@/lib/logger/logger";
 
 export async function getContractType() {
-  return prisma.contract_type.findMany({
+  try {
+    return prisma.contract_type.findMany({
     select: {
       id: true,
       fullname: true,
@@ -10,4 +12,9 @@ export async function getContractType() {
       fullname: "asc",
     },
   });
+  } catch (error) {
+    logger.error('Erreur SELECT contract_type', { table: 'contract_type', error });
+    throw error;
+  }
+ 
 }

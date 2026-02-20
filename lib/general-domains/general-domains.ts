@@ -1,8 +1,10 @@
 
 import { prisma } from "@/lib/prisma";
+import { logger } from "@/lib/logger/logger";
 
 export async function generalDomainsPrisma() {
-  const rows = await prisma.general_domain.findMany({
+  try {
+    const rows = await prisma.general_domain.findMany({
     select: { id: true, fullname: true },
     orderBy: { fullname: "asc" },
   });
@@ -14,4 +16,9 @@ export async function generalDomainsPrisma() {
   }));
 
   return data;
+  } catch (error) {
+    logger.error('Erreur SELECT general_domain', { table: 'general_domain', error });
+       throw error;
+  }
+  
 }

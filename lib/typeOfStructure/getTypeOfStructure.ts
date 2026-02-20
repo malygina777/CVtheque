@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { logger } from "@/lib/logger/logger";
 
 export type TypeOfStructure = {
   id: number;
@@ -9,7 +10,8 @@ export type TypeOfStructure = {
 export async function getTypeOfStructure(
   domainId: number,
 ): Promise<TypeOfStructure[]> {
-  return prisma.structure_type.findMany({
+  try {
+     return prisma.structure_type.findMany({
     where: {
       general_domain_has_structure_type: {
         some: {
@@ -20,4 +22,9 @@ export async function getTypeOfStructure(
     select: { id: true, fullname: true, shortname: true },
     orderBy: { fullname: "asc" },
   });
+  } catch (error) {
+    logger.error('Erreur SELECT structure_type', { table: 'structure_type', error });
+           throw error;
+  }
+ 
 }

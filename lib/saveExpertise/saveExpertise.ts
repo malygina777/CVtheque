@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { logger } from "@/lib/logger/logger";
 
 type DataSelected = {
   profileId: number;
@@ -6,7 +7,8 @@ type DataSelected = {
 };
 
 export async function saveExpertise(data: DataSelected) {
-  const { profileId, expertisesId } = data;
+  try {
+    const { profileId, expertisesId } = data;
 
   return await prisma.user_has_expertise.createMany({
     data: expertisesId.map((expertiseId) => ({
@@ -15,4 +17,9 @@ export async function saveExpertise(data: DataSelected) {
     })),
     skipDuplicates: true,
   });
+  } catch (error) {
+    logger.error('Erreur CREATE user_has_expertise', { table: 'user_has_expertise', error });
+           throw error;
+  }
+  
 }

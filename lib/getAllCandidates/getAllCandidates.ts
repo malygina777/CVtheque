@@ -1,7 +1,10 @@
 import { prisma } from "@/lib/prisma";
+import { logger } from "@/lib/logger/logger";
 
 export async function getAllCandidatesPrisma(role: string) {
-  const where = role === "teacher" ? { enable: true } : {};
+
+  try {
+    const where = role === "teacher" ? { enable: true } : {};
   const users = await prisma.profile.findMany({
     where,
     select: {
@@ -49,4 +52,9 @@ export async function getAllCandidatesPrisma(role: string) {
 
     cvFileName: u.file[0]?.file_name ?? null,
   }));
+  } catch (error) {
+     logger.error('Erreur SELECT profile,email,phone, user_has_rncp, user_has_expertise,user_has_worked', { table: 'profile,email,phone, user_has_rncp, user_has_expertise,user_has_worked', error });
+       throw error;
+  }
+  
 }

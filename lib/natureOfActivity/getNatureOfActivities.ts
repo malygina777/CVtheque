@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { logger } from "@/lib/logger/logger";
 
 export type NatureOfActivity = {
   id: number;
@@ -9,6 +10,7 @@ export type NatureOfActivity = {
 export async function getNatureOfActivities(
   generalDomainId: number,
 ): Promise<NatureOfActivity[]> {
+  try {
   return prisma.nature_of_activity.findMany({
     where: {
       general_domain_has_nature_of_activity: {
@@ -20,4 +22,9 @@ export async function getNatureOfActivities(
     select: { id: true, fullname: true, shortname: true },
     orderBy: { fullname: "asc" },
   });
+  } catch (error) {
+    logger.error('Erreur SELECT nature_of_activity', { table: 'nature_of_activity', error });
+               throw error;
+  }
+  
 }
