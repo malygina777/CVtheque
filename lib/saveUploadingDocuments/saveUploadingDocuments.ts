@@ -7,7 +7,7 @@ type Docs = {
     mime: string;
     hash: string;
   };
-  cover: {
+  cover?: {
     fileName: string;
     ext: string;
     mime: string;
@@ -33,15 +33,18 @@ export async function saveUploadingDocuments(data: Docs, profileId: number) {
       },
     });
 
-    await tx.file.create({
-      data: {
-        profile_id: profileId,
-        file_type_id: FILE_TYPE_ID_COVER,
-        file_name: cover.fileName,
-        extension: cover.ext,
-        type_mime: cover.mime,
-        hash: cover.hash,
-      },
-    });
+    if (cover) {
+  await tx.file.create({
+    data: {
+      profile_id: profileId,
+      file_type_id: FILE_TYPE_ID_COVER,
+      file_name: cover.fileName,
+      extension: cover.ext,
+      type_mime: cover.mime,
+      hash: cover.hash,
+    },
+  });
+}
+
   });
 }

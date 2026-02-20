@@ -24,58 +24,64 @@ export async function POST(req: Request) {
     const profileId = await getProfilePrisma(userId);
 
     const fd = await req.formData();
-    const cv = fd.get("cv");
-    const coverLetter = fd.get("coverLetter");
+const cv = fd.get("cv");
+const coverLetter = fd.get("coverLetter");
 
-    if (!profileId || !(cv instanceof File) || !(coverLetter instanceof File)) {
-      return NextResponse.json({ ok: false }, { status: 400 });
-    }
+if (!profileId || !(cv instanceof File)) {
+  return NextResponse.json({ ok: false }, { status: 400 });
+}
 
-    const cvBuf = Buffer.from(await cv.arrayBuffer());
-    const coverBuf = Buffer.from(await coverLetter.arrayBuffer());
+const coverFileMaybe = coverLetter instanceof File ? coverLetter : null;
 
-    const cvHash = crypto.createHash("sha256").update(cvBuf).digest("hex");
-    const coverLetterHash = crypto
-      .createHash("sha256")
-      .update(coverBuf)
-      .digest("hex");
+// --- CV (обязательно)
+const cvBuf = Buffer.from(await cv.arrayBuffer());
+const cvHash = crypto.createHash("sha256").update(cvBuf).digest("hex");
+const dirCV = path.join(process.cwd(), "privateStorage", "cv");
+await fs.mkdir(dirCV, { recursive: true });
 
-    const dirCV = path.join(process.cwd(), "privateStorage", "cv");
-    const dirCover = path.join(
-      process.cwd(),
-      "privateStorage",
-      "motivationLetter",
-    );
+const cvExt = path.extname(cv.name).replace(".", "");
+const cvFile = `cv-${cvHash}.${cvExt}`;
+await fs.writeFile(path.join(dirCV, cvFile), cvBuf);
 
-    await fs.mkdir(dirCV, { recursive: true });
-    await fs.mkdir(dirCover, { recursive: true });
+// --- COVER (опционально)
+let coverLetterExt: string | null = null;
+let coverLetterHash: string | null = null;
+let coverFile: string | null = null;
 
-    const cvExt = path.extname(cv.name).replace(".", "");
-    const coverLetterExt = path.extname(coverLetter.name).replace(".", "");
+if (coverFileMaybe) {
+  const coverBuf = Buffer.from(await coverFileMaybe.arrayBuffer());
+  coverLetterHash = crypto.createHash("sha256").update(coverBuf).digest("hex");
 
-    const cvFile = `cv-${cvHash}.${cvExt}`;
-    const coverFile = `cover-${coverLetterHash}.${coverLetterExt}`;
+  const dirCover = path.join(process.cwd(), "privateStorage", "motivationLetter");
+  await fs.mkdir(dirCover, { recursive: true });
 
-    await fs.writeFile(path.join(dirCV, cvFile), cvBuf);
-    await fs.writeFile(path.join(dirCover, coverFile), coverBuf);
+  coverLetterExt = path.extname(coverFileMaybe.name).replace(".", "");
+  coverFile = `cover-${coverLetterHash}.${coverLetterExt}`; 
+
+  await fs.writeFile(path.join(dirCover, coverFile), coverBuf);
+}
 
     await saveUploadingDocuments(
-      {
-        cv: {
-          fileName: `CV/${cvFile}`,
-          ext: cvExt,
-          mime: cv.type,
-          hash: cvHash,
-        },
-        cover: {
-          fileName: `motivationLetter/${coverFile}`,
-          ext: coverLetterExt,
-          mime: coverLetter.type,
-          hash: coverLetterHash,
-        },
-      },
-      Number(profileId),
-    );
+  {
+    cv: {
+      fileName: `CV/${cvFile}`,
+      ext: cvExt,
+      mime: cv.type,
+      hash: cvHash,
+    },
+    ...(coverFileMaybe && coverFile && coverLetterExt && coverLetterHash
+      ? {
+          cover: {
+            fileName: `motivationLetter/${coverFile}`,
+            ext: coverLetterExt,
+            mime: coverFileMaybe.type,
+            hash: coverLetterHash,
+          },
+        }
+      : {}),
+  },
+  Number(profileId),
+);
 
     return NextResponse.json({ ok: true });
   } catch (e) {

@@ -19,15 +19,21 @@ import { Input } from "@/components/ui/input";
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ACCEPTED_TYPES = ["application/pdf"];
 
-const fileSchema = z
+const requiredFileSchema = z
   .custom<File>((v) => v instanceof File, "Fichier obligatoire.")
   .refine((file) => file.size > 0, "Fichier vide.")
   .refine((file) => file.size <= MAX_FILE_SIZE, "Max 5MB.")
   .refine((file) => ACCEPTED_TYPES.includes(file.type), "Formats: PDF");
 
+const optionalFileSchema = z
+  .custom<File | undefined>((v) => v === undefined || v instanceof File)
+  .refine((file) => !file || file.size > 0, "Fichier vide.")
+  .refine((file) => !file || file.size <= MAX_FILE_SIZE, "Max 5MB.")
+  .refine((file) => !file || ACCEPTED_TYPES.includes(file.type), "Formats: PDF");
+
 const formSchema = z.object({
-  cv: fileSchema,
-  coverLetter: fileSchema,
+  cv: requiredFileSchema,
+  coverLetter: optionalFileSchema, // ✅ теперь не обязательно
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -53,7 +59,10 @@ export default function UploadingDocuments() {
     const fd = new FormData();
 
     fd.append("cv", values.cv);
-    fd.append("coverLetter", values.coverLetter);
+
+if (values.coverLetter) {
+  fd.append("coverLetter", values.coverLetter);
+}
 
     const res = await fetch("/api/uploadingDocuments", {
       method: "POST",
@@ -81,8 +90,10 @@ export default function UploadingDocuments() {
         <div className="w-full max-w-2xl mx-auto rounded-lg border bg-background p-6 shadow-sm border-black/40 divide-y divide-black/30 bg-white">
           <h3 className="text-lg font-semibold text-foreground">
             Téléchargement de fichiers
-          </h3>
+            <h6 className="text-sm no-underline">Deux fichiers PDF </h6>
 
+          </h3>
+          
           <fieldset className="mt-6 space-y-5">
             {/* CV */}
             <FormField

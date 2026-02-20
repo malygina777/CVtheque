@@ -202,7 +202,7 @@ export function CandidateSearch() {
                     {!hasAnyFilter ? (
                       <TableRow className="hover:!bg-lime-200 hover:!scale-[1.04]">
                         <TableCell
-                          colSpan={6}
+                          colSpan={7}
                           className="py-6 text-center text-sm text-slate-600"
                         >
                           Sélectionnez au moins un filtre pour afficher des
@@ -212,7 +212,7 @@ export function CandidateSearch() {
                     ) : loading ? (
                       <TableRow className="hover:!bg-lime-200 hover:!scale-[1.04]">
                         <TableCell
-                          colSpan={6}
+                          colSpan={7}
                           className="py-6 text-center text-sm text-slate-600"
                         >
                           Chargement...
@@ -221,7 +221,7 @@ export function CandidateSearch() {
                     ) : filteredCandidates.length === 0 ? (
                       <TableRow className="hover:!bg-lime-200 hover:!scale-[1.04]">
                         <TableCell
-                          colSpan={6}
+                          colSpan={7}
                           className="py-6 text-center text-sm text-slate-600"
                         >
                           Aucun candidat ne correspond aux filtres.
